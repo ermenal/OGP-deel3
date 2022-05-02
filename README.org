@@ -2,8 +2,8 @@
 The deadline for iteration 3 is May 27th at 15:30.
 
 For iteration 3, you are allowed to start from the model solution of the second iteration (will be available shortly) or from your own solution. You are even allowed to mix and match code from both (at your own responsibility, of course).
-The project template can be found [here](https://gitlab.kuleuven.be/u0145446/ogp-project-2021-2022-iteratie-3).
-Additionally, the assignment (i.e.\ this text) is available online [here](https://gitlab.kuleuven.be/u0145446/ogp-project-2021-2022-iteratie-3/-/blob/main/README.org).
+The project template can be found [[https://gitlab.kuleuven.be/u0145446/ogp-project-2021-2022-iteratie-3][here]].
+Additionally, the assignment (i.e.\ this text) is available online [[https://gitlab.kuleuven.be/u0145446/ogp-project-2021-2022-iteratie-3/-/blob/main/README.org][here]].
 Although we strive to keep any changes to the assignment to a minimum, it is possible that we will publish changes or corrections on this git repository.
 You are required to regularly check the repository for updates until the deadline.
 ** Overview
