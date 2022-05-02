@@ -17,7 +17,7 @@ import utils.Point;
 import utils.Rect;
 import utils.Vector;
 
-class SubmissionIter3 {
+class SubmissionTest3 {
 
 	static final Point BR = new Point(50000, 30000);
 	static final Point origin = new Point(0, 0);
