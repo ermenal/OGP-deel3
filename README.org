@@ -13,7 +13,7 @@ You are required to regularly check the repository for updates until the deadlin
 - The code snippet in this assignment has been updated.
 - Please use Set's of balls/alpha for ~linkedBalls, linkedAlphas~.
 - Alphas should have the same size as balls (diameter of 700).
-- When an alpha bounces on a wall/paddle its speed should be modified as if it were a ball.
+- When an alpha bounces on a wall/paddle its speed should be modified as if it was a ball.
 - Some point repartition idea has been added to the end of this document.
 - Please use the ~Breakout.tick~ order specified in this assignment.
 ** Overview
@@ -29,7 +29,7 @@ Only 1 alpha particle gets emitted, even if the paddle is a replicator paddle.
 When a ball is below the bottom edge of the field, it is unlinked from all of its linked alpha particles, before disappearing.
 
 Alpha particles bounce on walls and on the paddle but do not interact with blocks.
-When an alpha particle ~a~ bounces on something, its speed is modified as if it were a ball, and a special effect occurs.
+When an alpha particle ~a~ bounces on something, its speed is modified as if it was a ball, and a special effect occurs.
  - When it bounces on a wall, *magnetism* occurs: every ball ~b~ that is linked to ~a~ is either attracted towards ~a~ or repelled from ~a~.
    The new speed vector of ~b~ depends on the charge of ~b~ (for consistency we provide a function ~Vector.magnetSpeed~ computing this new speed).
  - When it bounces on the paddle, *anti-radioactivity* occurs: A new ball ~b~ linked to ~a~ gets emitted by the paddle.
