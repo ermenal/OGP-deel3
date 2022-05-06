@@ -185,9 +185,16 @@ public class Vector {
 		}
 		else return ballSpeed;
 	}
-		
-		
-	public Vector floatScale(double factor) {
-		return new Vector((int) Math.ceil( x * factor ) , (int) Math.ceil( y * factor ));
+	
+	public int floorCeil(double value) {
+        return (int) (value >= 0 ? Math.ceil(value) : Math.floor(value));
 	}
+   
+	public Vector floatScale(double factor) {
+	        return new Vector(floorCeil( x * factor ) , floorCeil( y * factor ));
+	}
+		
+//	public Vector floatScale(double factor) {
+//		return new Vector((int) Math.ceil( x * factor ) , (int) Math.ceil( y * factor ));
+//	}
 }
