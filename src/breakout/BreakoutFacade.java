@@ -17,7 +17,7 @@ public class BreakoutFacade {
 		return null;
 	}
 	
-	public ReplicatingPaddleState createReplicatingPaddleState(Point p, int count) {
+	public PaddleState createReplicatingPaddleState(Point p, int count) {
 		return null;
 	}
 

@@ -8,6 +8,7 @@ Additionally, the assignment (i.e.\ this text) is available online [[https://git
 Although we strive to keep any changes to the assignment to a minimum, it is possible that we will publish changes or corrections on this git repository.
 You are required to regularly check the repository for updates until the deadline.
 ** Updates
+- Minor correction in ~BreakoutFacade.createReplicatingPaddleState~ type signature.
 - A bug in ~Vector.magnetSpeed~ has been fixed.
 - The submission test suite for iter3 has been updated with tests coming from iter2 + another test.
 - The code snippet in this assignment has been updated.
