@@ -125,4 +125,4 @@ Students doing the project alone do not have to implement the magnetism effect (
 
 Make sure your implementation passes the submission test suite provided in the repo of iteration 3.
 
-To obtain a score of 50% or 66% for iteration 3, your solution must compile without errors, pass a sufficiently high fraction of the official test cases and of our own secret test suite. It must also comply with what is asked in this assignment to a certain extent. To obtain a score of 83% or 100%, your solution must pass all of the official test cases and entirely comply with the instructions given here.
+To obtain a score of 50% or 66% for iteration 3, your solution must compile without errors, pass a sufficiently high fraction of the submission test suite and of our own secret test suite. It must also comply with what is asked in this assignment to a certain extent. To obtain a score of 83% or 100%, your solution must pass all of the official test cases, a high fraction of our secret test suite, and entirely comply with the instructions given here.
