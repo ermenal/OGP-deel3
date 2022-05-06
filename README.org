@@ -15,7 +15,7 @@ You are required to regularly check the repository for updates until the deadlin
 - Alphas should have the same size as balls (diameter of 700).
 - When an alpha bounces on a wall/paddle its speed should be modified as if it was a ball.
 - Some point repartition idea has been added to the end of this document.
-- Please use the ~Breakout.tick~ order specified in this assignment.
+- Please use the ~BreakoutState.tick~ order specified in this assignment.
 ** Overview
 The goal of iteration 3 is to extend iteration 2 with a certain multi-class entity-relationship abstraction.
 This relationship connects two kinds of (mutable) entities: balls on the one hand, and "alpha particles" on the other.
