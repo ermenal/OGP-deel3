@@ -7,6 +7,15 @@ Note that it contains (almost) empty versions of classes like BreakoutState, Pad
 Additionally, the assignment (i.e.\ this text) is available online [[https://gitlab.kuleuven.be/u0145446/ogp-project-2021-2022-iteratie-3/-/blob/main/README.org][here]].
 Although we strive to keep any changes to the assignment to a minimum, it is possible that we will publish changes or corrections on this git repository.
 You are required to regularly check the repository for updates until the deadline.
+** Updates
+- A bug in ~Vector.magnetSpeed~ has been fixed.
+- The submission test suite for iter3 has been updated with tests coming from iter2 + another test.
+- The code snippet in this assignment has been updated.
+- Please use Set's of balls/alpha for ~linkedBalls, linkedAlphas~.
+- Alphas should have the same size as balls (diameter of 700).
+- When an alpha bounces on a wall/paddle its speed should be modified as if it were a ball.
+- Some point repartition idea has been added to the end of this document.
+- Please use the ~Breakout.tick~ order specified in this assignment.
 ** Overview
 The goal of iteration 3 is to extend iteration 2 with a certain multi-class entity-relationship abstraction.
 This relationship connects two kinds of (mutable) entities: balls on the one hand, and "alpha particles" on the other.
@@ -36,7 +45,7 @@ Some utility classes have been moved to an ~utils~ package (Rect, Vector, ...).
 *** 2) radioactivity package
 In order to implement this multi-class abstraction, we put the ~Alpha~ and ~Ball~ classes in a new separate  ~radioactivity~ package and we add package-scoped fields (of type ~Set<Alpha>, Set<Ball>~) to refer to linked balls/linked alpha particles. In terms of simplified code:
 #+begin_src java
-public class Ball {
+public class Ball { //Ball still abstract but thats not the point of this snippet.
     int eCharge;
     /**
      * @peerObjects
