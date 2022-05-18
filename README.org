@@ -8,6 +8,8 @@ Additionally, the assignment (i.e.\ this text) is available online [[https://git
 Although we strive to keep any changes to the assignment to a minimum, it is possible that we will publish changes or corrections on this git repository.
 You are required to regularly check the repository for updates until the deadline.
 ** Updates
+- There was a bug in the published model solution for iteration 2, that appears in the DEMO below as well. When a ball bounces on a replicator paddle, 3 new balls (*not 2*) should be emitted. For iteration 3 we also expect *3 new balls*. (Note: in iteration 3, an additional linked alpha particle is emitted).
+- --------
 - Minor correction in ~BreakoutFacade.createReplicatingPaddleState~ type signature.
 - A bug in ~Vector.magnetSpeed~ has been fixed.
 - The submission test suite for iter3 has been updated with tests coming from iter2 + another test.
