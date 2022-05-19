@@ -8,6 +8,7 @@ Additionally, the assignment (i.e.\ this text) is available online [[https://git
 Although we strive to keep any changes to the assignment to a minimum, it is possible that we will publish changes or corrections on this git repository.
 You are required to regularly check the repository for updates until the deadline.
 ** Updates
+- As shown in the base sources of iteration 3, the speed of the paddle has been doubled compared to iteration 2. ~BreakoutState~ sets ~PADDLE_VEL = new Vector(20, 0)~.
 - There was a bug in the published model solution for iteration 2, that appears in the DEMO below as well. When a ball bounces on a replicator paddle, 3 new balls (*not 2*) should be emitted. For iteration 3 we also expect *3 new balls*. (Note: in iteration 3, an additional linked alpha particle is emitted).
 - --------
 - Minor correction in ~BreakoutFacade.createReplicatingPaddleState~ type signature.
@@ -36,7 +37,7 @@ When an alpha particle ~a~ bounces on something, its speed is modified as if it 
  - When it bounces on a wall, *magnetism* occurs: every ball ~b~ that is linked to ~a~ is either attracted towards ~a~ or repelled from ~a~.
    The new speed vector of ~b~ depends on the charge of ~b~ (for consistency we provide a function ~Vector.magnetSpeed~ computing this new speed).
  - When it bounces on the paddle, *anti-radioactivity* occurs: A new ball ~b~ linked to ~a~ gets emitted by the paddle.
-   The intial speed of the newly created ball ~b~ is equal to the updated speed of ~a~ plus (-2, -2) (like in the radioactivity effect).
+   The initial speed of the newly created ball ~b~ is equal to the updated speed of ~a~ plus (-2, -2) (like in the radioactivity effect).
    Note that only 1 ball gets emitted, even if the paddle is a replicator paddle.
    When an alpha is below the bottom edge of the field, it is unlinked from all of its linked balls, before disappearing.
    
@@ -78,7 +79,7 @@ Note that in order to express the full invariant you will need to use phase inva
 The clients of this multi-class abstraction should be able to create balls/alphas with no peers. They should also be able, for given ball ~b~ and alpha ~a~, to register/delete a link between ~b~ and ~a~ via the calls ~b.linkTo(a)~ and ~b.unLink(a)~.
 Note that the latter calls may trigger a recomputation of the electric charges of ~b~ itself, as well as all ~b' ∈ a.linkedBalls~, for the representation invariant to be preserved. If ~b' ≠ b~ and ~b' ∉ a.linkedBalls~ then the charge of b' needs not be recomputed. Moreover linking/unlinking twice should do nothing extra compared to doing it once.
 **** Encapsulation
-By definition, clients of a multi-class abstraction must have access to peer objects references. In our case this is achieved with the ~getBalls(), getAlphas()~ methods. Remember however to properly encapsulate the above-mentionned package-scoped arrays ~linkedAlphas~ and ~linkedBalls~: we do not want the client to mutate those arrays by, e.g. setting some elements to ~null~. This means that ~getBalls(), getAlphas()~ must yield a shallow copy of ~linkedBalls, linkedAlphas~: a fresh array with the actual peer object references.
+By definition, clients of a multi-class abstraction must have access to peer objects references. In our case this is achieved with the ~getBalls(), getAlphas()~ methods. Remember however to properly encapsulate the above-mentioned package-scoped arrays ~linkedAlphas~ and ~linkedBalls~: we do not want the client to mutate those arrays by, e.g. setting some elements to ~null~. This means that ~getBalls(), getAlphas()~ must yield a shallow copy of ~linkedBalls, linkedAlphas~: a fresh array with the actual peer object references.
 **** A note about electric charge
 We expect to find an ~eCharge~ field in the ~Ball~ class, and we expect to find a getter ~getEcharge()~ simply forwarding the value of this field.
 *** 3) The ~equals~ method and mutable classes.
@@ -110,7 +111,7 @@ The main goal of iteration 3 is to work with multi-class abstractions and unders
 
 As always, make sure that ~s.tick()~ preserves the validity of ~s~.
 ** Facade
-We extended ~BreakoutFacade~ with new methods. We ask you to implement all the methods in ~BreakoutFacade~ (that do not already have an implementation). Your implementation of these methods should consist of very simple code that simply forwards the invocation to the relevant method in the other classes you've implemented. ~BreakoutFacade~ depends on both the ~breakout~ package and the ~radioactivity~ pacakge (where ~Ball~ and ~Alpha~ reside).
+We extended ~BreakoutFacade~ with new methods. We ask you to implement all the methods in ~BreakoutFacade~ (that do not already have an implementation). Your implementation of these methods should consist of very simple code that simply forwards the invocation to the relevant method in the other classes you've implemented. ~BreakoutFacade~ depends on both the ~breakout~ package and the ~radioactivity~ package (where ~Ball~ and ~Alpha~ reside).
 ** What to submit
 You have to submit all classes of your implementation, all of which must reside in package ~breakout~ or ~radioactivity~.
 In addition to the methods specified above, you may add any additional methods you deem useful to any of these classes.
