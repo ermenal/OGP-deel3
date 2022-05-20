@@ -15,11 +15,11 @@ import breakout.BlockState;
 import breakout.BreakoutFacade;
 import breakout.BreakoutState;
 import breakout.PaddleState;
-import radioactivity.Alpha;
-import radioactivity.Ball;
-import utils.Point;
-import utils.Rect;
-import utils.Vector;
+import breakout.radioactivity.Alpha;
+import breakout.radioactivity.Ball;
+import breakout.utils.Point;
+import breakout.utils.Rect;
+import breakout.utils.Vector;
 
 @SuppressWarnings("serial")
 public class GameView extends JPanel {

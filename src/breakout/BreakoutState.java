@@ -1,6 +1,6 @@
 package breakout;
 
-import utils.Vector;
+import breakout.utils.Vector;
 
 public class BreakoutState {
 	

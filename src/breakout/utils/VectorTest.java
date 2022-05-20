@@ -1,4 +1,4 @@
-package utils;
+package breakout.utils;
 
 import static org.junit.jupiter.api.Assertions.*;
 
