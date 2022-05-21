@@ -241,7 +241,7 @@ class SubmissionTest3 {
 	/**
 	 * Other tests coming from iteration2 and adapted
 	 */
-	class SubmissionTestSuiteIter2Bis {
+	@Nested class SubmissionTestSuiteIter2Bis {
 
 		private Ball[] oneBall;
 		private BlockState block;
