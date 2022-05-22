@@ -55,7 +55,10 @@ public class BreakoutState {
 			throw new IllegalArgumentException("bottomRight should not be to the left of or above (0, 0)");
 		}
 			
+		Alpha[] alphas = new Alpha[0];
+		
 		this.balls = balls.clone();
+		this.alphas = alphas;
 		this.blocks = blocks.clone();
 		this.bottomRight = bottomRight;
 		this.paddle = paddle;
@@ -175,6 +178,8 @@ public class BreakoutState {
 		superchargedTimeHandler(elapsedTime);
 	
 		moveAllBalls(elapsedTime);
+		
+		moveAllAlphas(elapsedTime);
 	
 		wallCollisionHandler();
 		
@@ -203,6 +208,14 @@ public class BreakoutState {
 		}
 	}
 	
+	private void moveAllAlphas(int elapsedTime) {
+		for (int i=0; i<alphas.length; i++) {
+			Ball tempBall = new NormalBall(alphas[i].getCenter(), alphas[i].getDiameter(), alphas[i].getVelocity());
+			tempBall.moveBall(bottomRight, elapsedTime);
+			alphas[i].changeAlphaFromBall(tempBall);
+		}
+	}
+	
 	private void wallCollisionHandler() {
 		for (Ball ball: balls) {
 			if (ball.raaktRechthoek(new Rect(new Point(-1, 0), new Point(0, bottomRight.getY())), 4)) {
@@ -219,9 +232,9 @@ public class BreakoutState {
 			}
 		}
 		
-		for (Alpha alpha: getAlphas()) {
+		for (Alpha alpha: alphas) {
 			Ball tempAlpha = new NormalBall(alpha.getCenter(), alpha.getDiameter(), alpha.getVelocity());
-			if (tempAlpha.raaktRechthoek(new Rect(new Point(-1, 0), new Point(0, bottomRight.getY())), 4)) {
+			if (tempAlpha.raaktRechthoek(new Rect(new Point(-1, 0), new Point(0, bottomRight.getY()+1)), 4)) {
 				alpha.bounceWall(1);
 				for (Ball ball: alpha.getBalls()) {
 					ball.linkedAlphaHitWall(alpha);

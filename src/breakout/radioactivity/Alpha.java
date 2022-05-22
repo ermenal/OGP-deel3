@@ -10,7 +10,7 @@ import breakout.utils.Rect;
 public class Alpha {
 	
 	private Point center;
-	private final int diameter;
+	private int diameter;
 	private Vector velocity;
 	
 	private final Color color;
@@ -54,6 +54,15 @@ public class Alpha {
 	
 	public Color getColor() {
 		return color;
+	}
+	
+	public void setLocation(Point center, int diameter) {
+		this.center = center;
+		this.diameter = diameter;
+	}
+	
+	public void setVelocity(Vector velocity) {
+		this.velocity = velocity;
 	}
 	
 	public Alpha clone() {

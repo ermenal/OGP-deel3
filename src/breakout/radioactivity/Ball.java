@@ -12,7 +12,7 @@ import java.util.*;
 public abstract class Ball {
 	
 	private Point center;
-	private final int diameter;
+	private int diameter;
 	private Vector velocity;
 	
 	private final Color color;
@@ -53,6 +53,15 @@ public abstract class Ball {
 	
 	public int getEcharge() {
 		return eCharge;
+	}
+	
+	public void setLocation(Point center, int diameter) {
+		this.center = center;
+		this.diameter = diameter;
+	}
+	
+	public void setVelocity(Vector velocity) {
+		this.velocity = velocity;
 	}
 	
 	public void linkTo(Alpha alpha) {
