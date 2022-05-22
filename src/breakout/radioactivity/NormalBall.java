@@ -16,9 +16,11 @@ public class NormalBall extends Ball{
 		return new NormalBall(getCenter(), getDiameter(), getVelocity().plus(addedVelocity));
 	}
 	
-	public boolean equals(Object obj) {
-		return super.equals(obj);
-	
+	public Ball clone() {
+		Ball retBall = new NormalBall(getCenter(), getDiameter(), getVelocity());
+		for (Alpha alpha: getAlphas()) {
+			retBall.linkTo(alpha);
+		}
+		return retBall;
 	}
-	
 }

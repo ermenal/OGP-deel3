@@ -17,8 +17,8 @@ public abstract class Ball {
 	
 	private final Color color;
 	
-	int eCharge;
-	Set<Alpha> linkedAlphas;
+	private int eCharge = 1;
+	private Set<Alpha> linkedAlphas = new HashSet<Alpha>();
 	
 	public Ball(Point center, int diameter, Vector velocity, Color color) {
 		this.center = center;
@@ -51,17 +51,48 @@ public abstract class Ball {
 		return -1;
 	}
 	
+	public int getEcharge() {
+		return eCharge;
+	}
+	
+	public void linkTo(Alpha alpha) {
+		linkedAlphas.add(alpha);
+		alpha.addBall(this);
+		for(Ball ball: alpha.getBalls()) {
+			ball.calculateAndSetEcharge();
+		}
+	}
+	
+	public void unLink(Alpha alpha) {
+		alpha.removeBall(this);
+		linkedAlphas.remove(alpha);
+		for(Ball ball: alpha.getBalls()) {
+			ball.calculateAndSetEcharge();
+		}
+	}
+	
+	Set<Alpha> getAlphasInternal(){
+		return Set.copyOf(linkedAlphas);
+	}
+	
+	public Set<Alpha> getAlphas(){
+		return getAlphasInternal();
+	}
+	
+	public void calculateAndSetEcharge() {
+		int newEcharge = 1;
+		for (Alpha alpha: linkedAlphas) {
+			newEcharge = Math.max(newEcharge, alpha.getBalls().size());
+		}
+		if (linkedAlphas.size() % 2 != 0)
+			eCharge = -newEcharge;
+		else eCharge = newEcharge;
+		
+	}
+	
 	public abstract Ball cloneBallWithChangedVelocity(Vector addedVelocity);
 	
-	public boolean equals(Object obj) {
-		if (obj == null)
-			return false;
-		return obj.getClass() == getClass() && 
-				((Ball)obj).getCenter().equals(center) &&
-				((Ball)obj).getDiameter() == diameter &&
-				((Ball)obj).getVelocity().equals(velocity);
-	
-	}
+	public abstract Ball clone();
 	
 	public void moveBall(Point br, int timeElapsed) {
 		Point newCenter = center.plus(velocity.scaled(timeElapsed));
@@ -100,21 +131,28 @@ public abstract class Ball {
 		}
 	}
 	
-	public void bouncePaddle(int paddleDir, int paddleSideNumber) {
-		int addedVelocity = paddleDir * 2;
+	public void linkedAlphaHitWall(Alpha alpha) {
+		velocity = Vector.magnetSpeed(alpha.getCenter(), center, eCharge, velocity);
+	}
+	
+	public void bouncePaddle(Vector addedVelocity, int paddleSideNumber) {
 		if (paddleSideNumber == 1) {
 			// leftSide
-			velocity = velocity.mirrorOver(new Vector(-1, 0)).plus(new Vector(addedVelocity, 0));
+			velocity = velocity.mirrorOver(new Vector(-1, 0)).plus(addedVelocity);
 			return;
 		}
 		if (paddleSideNumber == 2) {
 			// topSide
-			velocity = velocity.mirrorOver(new Vector(0, -1)).plus(new Vector(addedVelocity, 0));
+			velocity = velocity.mirrorOver(new Vector(0, -1)).plus(addedVelocity);
 			return;
 		}
 		if (paddleSideNumber == 3) {
 			// rightSide
-			velocity = velocity.mirrorOver(new Vector(1, 0)).plus(new Vector(addedVelocity, 0));
+			velocity = velocity.mirrorOver(new Vector(1, 0)).plus(addedVelocity);
+		}
+		if (paddleSideNumber == 4) {
+			// bottomSide
+			velocity = velocity.mirrorOver(new Vector(0, 1).plus(addedVelocity));
 		}
 	}
 	

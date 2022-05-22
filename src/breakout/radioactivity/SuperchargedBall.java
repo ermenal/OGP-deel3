@@ -26,8 +26,13 @@ public class SuperchargedBall extends Ball {
 	}
 	
 	public Ball superchargedTimeHandler(int elapsedTime, int maxTime) {
-		if (time + elapsedTime >= maxTime)
-			return new NormalBall(getCenter(), getDiameter(), getVelocity());
+		if (time + elapsedTime >= maxTime) {
+			Ball retBall = new NormalBall(getCenter(), getDiameter(), getVelocity());
+			for (Alpha alpha: getAlphas()) {
+				retBall.linkTo(alpha);
+				unLink(alpha);
+			}
+		}
 		time += elapsedTime;
 		return this;
 	}
@@ -35,12 +40,14 @@ public class SuperchargedBall extends Ball {
 	public Ball cloneBallWithChangedVelocity(Vector addedVelocity) {
 		return new SuperchargedBall(getCenter(), getDiameter(), getVelocity().plus(addedVelocity), time);
 	}
-
-	public boolean equals(Object obj) {
-		return super.equals(obj) && 
-				((SuperchargedBall)obj).getTime() == getTime();
-	}
 	
+	public Ball clone() {
+		Ball retBall = new SuperchargedBall(getCenter(), getDiameter(), getVelocity(), time);
+		for (Alpha alpha: getAlphas()) {
+			retBall.linkTo(alpha);
+		}
+		return retBall;
+	}
 }
 
 

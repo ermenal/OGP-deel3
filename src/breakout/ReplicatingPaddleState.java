@@ -183,7 +183,7 @@ public class ReplicatingPaddleState extends PaddleState{
 	@Override
 	
 	public PaddleState movePaddleRight(Point br, int elapsedTime) {
-		int moveBy = 10 * elapsedTime;
+		int moveBy = 20 * elapsedTime;
 		Point newCenter = new Point(getCenter().getX() + moveBy, getCenter().getY());
 		if (newCenter.getX() + getSize().getX() > br.getX()){
 			newCenter = new Point(br.getX() - getSize().getX(), newCenter.getY());
@@ -212,7 +212,7 @@ public class ReplicatingPaddleState extends PaddleState{
 	@Override
 	
 	public PaddleState movePaddleLeft(int elapsedTime) {
-		int moveBy = 10 * elapsedTime;
+		int moveBy = 20 * elapsedTime;
 		Point newCenter = new Point(getCenter().getX() - moveBy, getCenter().getY());
 		if (newCenter.getX() - getSize().getX() < 0){
 			newCenter = new Point(getSize().getX(), newCenter.getY());
