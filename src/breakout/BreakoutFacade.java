@@ -4,8 +4,7 @@ package breakout;
 import java.awt.Color;
 import java.util.Set;
 
-import breakout.radioactivity.Alpha;
-import breakout.radioactivity.Ball;
+import breakout.radioactivity.*;
 import breakout.utils.Point;
 import breakout.utils.Rect;
 import breakout.utils.Vector;
@@ -14,22 +13,22 @@ import breakout.utils.Vector;
 public class BreakoutFacade {
 	
 	public PaddleState createNormalPaddleState(Point center) {
-		return null;
+		return new NormalPaddleState(center);
 	}
 	
 	public PaddleState createReplicatingPaddleState(Point p, int count) {
-		return null;
+		return new ReplicatingPaddleState(p, count);
 	}
 
 	/**
 	 * newly created balls / alphas have an empty peer set.
 	 */
 	public Ball createNormalBall(Point center, int diameter, Vector initBallVelocity) {
-		return null;
+		return new NormalBall(center, diameter, initBallVelocity);
 	}
 
 	public Ball createSuperchargedBall(Point center, int diameter, Vector initBallVelocity, int lifetime) {
-		return null;
+		return new SuperchargedBall(center, diameter, initBallVelocity, lifetime);
 	}
 	
 	public Alpha createAlpha(Point center, int diameter, Vector speed) {

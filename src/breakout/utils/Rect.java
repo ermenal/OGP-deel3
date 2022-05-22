@@ -3,21 +3,33 @@ package breakout.utils;
 import java.util.Objects;
 
 /**
- * Represents a rectangle in a 2-dimensional integer coordinate system.
+ * An object of this class represents a rectangle on a 2D-grid
  * 
  * @immutable
- * @invar | getTopLeft() != null
- * @invar | getBottomRight() != null
- * @invar | getTopLeft().isUpAndLeftFrom(getBottomRight())
+ * 
+ * @invar The bottom right point is not {@code null}
+ *    | getBottomRight() != null
+ * @invar The top left point is not {@code null}
+ *    | getTopLeft() != null
+ *    
+ * @invar The bottom right point of the rectangle is not positioned above or to the left of the top left point
+ *    | getBottomRight().getX() >= getTopLeft().getX() &&
+ *    | getBottomRight().getY() >= getTopLeft().getY()
  */
+
 public class Rect {
 
 	/**
-	 * @invar | topLeft != null
-	 * @invar | bottomRight != null
-	 * @invar | topLeft.getX() <= bottomRight.getX()
-	 * @invar | topLeft.getY() <= bottomRight.getY()
+	 * @invar {@code topLeft} is not {@code null}
+	 *    | topLeft != null
+	 * @invar {@code bottomRight} is not {@code null} 
+	 *    | bottomRight != null
+	 *
+	 * @invar The {@code bottomRight} point is not positioned above or to the left of the {@code topLeft} point
+	 *     | bottomRight.getX() >= topLeft.getX() && 
+	 *	   | bottomRight.getY() >= topLeft.getY()
 	 */
+	
 	private final Point topLeft;
 	private final Point bottomRight;
 	
@@ -26,15 +38,21 @@ public class Rect {
 			}; 
 
 	/**
-	 * Construct a new rectangle with given top-left and bottom-right coordinate.
+	 * Initializes the object with the given topLeft and bottomRight points 
 	 * 
-	 * @pre | topLeft != null
-	 * @pre | bottomRight != null
-	 * @pre | topLeft.getX() <= bottomRight.getX()
-	 * @pre | topLeft.getY() <= bottomRight.getY()
-	 * @post | getTopLeft().equals(topLeft)
-	 * @post | getBottomRight().equals(bottomRight)
+	 * @pre Parameter {@code topLeft} is not {@code null}
+	 *     | topLeft != null
+	 * @pre Parameter {@code bottomRight} is not {@code null}
+	 *     | bottomRight != null
+	 *     
+	 * @pre {@code bottomRight} is not positioned above or to the left of {@code topLeft}
+	 *     | bottomRight.getX() >= topLeft.getX() && 
+	 *     | bottomRight.getY() >= topLeft.getY()
+	 *     
+	 * @post | getBottomRight() == bottomRight
+	 * @post | getTopLeft() == topLeft
 	 */
+	
 	public Rect(Point topLeft, Point bottomRight) {
 		this.topLeft = topLeft;
 		this.bottomRight = bottomRight;
