@@ -35,7 +35,7 @@ public class NormalBlockState extends BlockState {
 	 * @post | getBottomRight() == bottomRight
 	 */
 	
-	NormalBlockState(Point topLeft, Point bottomRight){
+	public NormalBlockState(Point topLeft, Point bottomRight){
 		super(topLeft, bottomRight);
 	}
 	

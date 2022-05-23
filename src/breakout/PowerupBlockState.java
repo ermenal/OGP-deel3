@@ -36,7 +36,7 @@ public class PowerupBlockState extends BlockState {
 	 * @post | getBottomRight() == bottomRight
 	 */
 	
-	PowerupBlockState(Point topLeft, Point bottomRight){
+	public PowerupBlockState(Point topLeft, Point bottomRight){
 		super(topLeft, bottomRight);
 	}
 	

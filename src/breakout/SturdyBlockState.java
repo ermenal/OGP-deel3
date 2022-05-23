@@ -43,7 +43,7 @@ public class SturdyBlockState extends BlockState {
 	 * @post | getHealth() == health
 	 */
 	
-	SturdyBlockState(Point topLeft, Point bottomRight, int health){
+	public SturdyBlockState(Point topLeft, Point bottomRight, int health){
 		super(topLeft, bottomRight);
 		this.health = health;
 	}

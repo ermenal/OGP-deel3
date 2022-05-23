@@ -35,7 +35,7 @@ public class ReplicatorBlockState extends BlockState {
 	 * @post | getBottomRight() == bottomRight
 	 */
 	
-	ReplicatorBlockState(Point topLeft, Point bottomRight){
+	public ReplicatorBlockState(Point topLeft, Point bottomRight){
 		super(topLeft, bottomRight);
 	}
 	
