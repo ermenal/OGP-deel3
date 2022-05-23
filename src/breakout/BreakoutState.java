@@ -133,6 +133,7 @@ public class BreakoutState {
 				balls[i].unLink(alpha);
 			}
 		}
+		this.balls = res;
 		return res;
 	}
 	
@@ -144,6 +145,7 @@ public class BreakoutState {
 				ball.unLink(alphas[i]);
 			}
 		}
+		this.alphas = res;
 		return res;
 	}
 	
@@ -190,10 +192,7 @@ public class BreakoutState {
 		paddleBallCollisionHandler(paddleDir);
 		
 		paddleAlphaCollisionHandler(paddleDir);
-}
-	
-	
-	
+	}
 	
 	
 	private void superchargedTimeHandler(int elapsedTime) {
@@ -300,13 +299,8 @@ public class BreakoutState {
 				}
 				if (geraakt) {
 					balls[j].hitBlock(blockRechthoek, tempBlocks[i].getsDestroyedOnCollision());
-					Ball tempBall = balls[j].clone();
 					paddle = tempBlocks[i].specialBlockHandler(paddle);
 					balls[j] = tempBlocks[i].specialBlockHandler(balls[j]);
-					for (Alpha alpha: tempBall.getAlphas()) {
-						balls[j].linkTo(alpha);
-						tempBall.unLink(alpha);
-					}
 					tempBlocks[i] = tempBlocks[i].specialBlockHandler();
 				}
 			}

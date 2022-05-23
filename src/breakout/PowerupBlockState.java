@@ -91,6 +91,11 @@ public class PowerupBlockState extends BlockState {
 	@Override
 	
 	public Ball specialBlockHandler(Ball ball) {
-		return new SuperchargedBall(ball.getCenter(), ball.getDiameter(), ball.getVelocity(), 0);
+		Ball retBall = new SuperchargedBall(ball.getCenter(), ball.getDiameter(), ball.getVelocity(), 0);
+		for (Alpha alpha: ball.getAlphas()) {
+			retBall.linkTo(alpha);
+			ball.unLink(alpha);
+		}
+		return retBall;
 	}
 }
