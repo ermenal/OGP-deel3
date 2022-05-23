@@ -32,6 +32,7 @@ public class SuperchargedBall extends Ball {
 				retBall.linkTo(alpha);
 				unLink(alpha);
 			}
+			return retBall;
 		}
 		time += elapsedTime;
 		return this;
@@ -47,6 +48,11 @@ public class SuperchargedBall extends Ball {
 			retBall.linkTo(alpha);
 		}
 		return retBall;
+	}
+	
+	public boolean equalContent(Object obj) {
+		return super.equalContent(obj) && 
+				((SuperchargedBall)obj).getTime() == getTime();
 	}
 }
 

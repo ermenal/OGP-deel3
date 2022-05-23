@@ -192,7 +192,10 @@ public class BreakoutState {
 		paddleBallCollisionHandler(paddleDir);
 		
 		paddleAlphaCollisionHandler(paddleDir);
-	}
+}
+	
+	
+	
 	
 	
 	private void superchargedTimeHandler(int elapsedTime) {
@@ -216,38 +219,41 @@ public class BreakoutState {
 	}
 	
 	private void wallCollisionHandler() {
+		Rect leftWall = new Rect(new Point(-1, 0), new Point(0, bottomRight.getY()));
+		Rect topWall = new Rect(new Point(0, -1), new Point(getBottomRight().getX(), 0));
+		Rect rightWall = new Rect(new Point(bottomRight.getX(), 0), new Point(bottomRight.getX() + 1, bottomRight.getY()));
 		for (Ball ball: balls) {
-			if (ball.raaktRechthoek(new Rect(new Point(-1, 0), new Point(0, bottomRight.getY())), 4)) {
-				ball.bounceWall(1);
+			if (ball.raaktRechthoek(leftWall, 4)) {
+				ball.hitBlock(leftWall, false);
 				continue;
 			}
-			if (ball.raaktRechthoek(new Rect(new Point(0, -1), new Point(getBottomRight().getX(), 0)), 1)) {
-				ball.bounceWall(2);
+			if (ball.raaktRechthoek(topWall, 1)) {
+				ball.hitBlock(topWall, false);
 				continue;
 			}
-			if (ball.raaktRechthoek(new Rect(new Point(bottomRight.getX(), 0), new Point(bottomRight.getX() + 1, bottomRight.getY())), 2)) {
-				ball.bounceWall(3);
+			if (ball.raaktRechthoek(rightWall, 2)) {
+				ball.hitBlock(rightWall, false);
 				continue;
 			}
 		}
 		
 		for (Alpha alpha: alphas) {
 			Ball tempAlpha = new NormalBall(alpha.getCenter(), alpha.getDiameter(), alpha.getVelocity());
-			if (tempAlpha.raaktRechthoek(new Rect(new Point(-1, 0), new Point(0, bottomRight.getY()+1)), 4)) {
+			if (tempAlpha.raaktRechthoek(leftWall, 4)) {
 				alpha.bounceWall(1);
 				for (Ball ball: alpha.getBalls()) {
 					ball.linkedAlphaHitWall(alpha);
 				}
 				continue;
 			}
-			if (tempAlpha.raaktRechthoek(new Rect(new Point(0, -1), new Point(getBottomRight().getX(), 0)), 1)) {
+			if (tempAlpha.raaktRechthoek(topWall, 1)) {
 				alpha.bounceWall(2);
 				for (Ball ball: alpha.getBalls()) {
 					ball.linkedAlphaHitWall(alpha);
 				}
 				continue;
 			}
-			if (tempAlpha.raaktRechthoek(new Rect(new Point(bottomRight.getX(), 0), new Point(bottomRight.getX() + 1, bottomRight.getY())), 2)) {
+			if (tempAlpha.raaktRechthoek(rightWall, 2)) {
 				alpha.bounceWall(3);
 				for (Ball ball: alpha.getBalls()) {
 					ball.linkedAlphaHitWall(alpha);
@@ -258,8 +264,9 @@ public class BreakoutState {
 	}
 	
 	private void lowerWallCollisionHandler() {
+		Rect bottomWall = new Rect(new Point(0, bottomRight.getY()), new Point(bottomRight.getX(), bottomRight.getY()+1));
 		for (int i=0; i<balls.length; i++) {
-			if (balls[i].raaktRechthoek(new Rect(new Point(0, bottomRight.getY()), new Point(bottomRight.getX(), bottomRight.getY()+1)), 3)) {
+			if (balls[i].raaktRechthoek(bottomWall, 3)) {
 				for (Alpha alpha: balls[i].getAlphas()) {
 					balls[i].unLink(alpha);
 				}
@@ -269,7 +276,7 @@ public class BreakoutState {
 		balls = Arrays.stream(balls).filter(b -> b != null).toArray(Ball[]::new);
 		for (int i=0; i<alphas.length; i++) {
 			Ball tempAlpha = new NormalBall(alphas[i].getCenter(), alphas[i].getDiameter(), alphas[i].getVelocity());
-			if (tempAlpha.raaktRechthoek(new Rect(new Point(0, bottomRight.getY()), new Point(bottomRight.getX(), bottomRight.getY()+1)), 3)) {
+			if (tempAlpha.raaktRechthoek(bottomWall, 3)) {
 				for (Ball ball: alphas[i].getBalls()) {
 					ball.unLink(alphas[i]);
 				}
@@ -314,23 +321,21 @@ public class BreakoutState {
 		for (Ball ball: balls) {
 			boolean geraakt = false;
 			if (ball.raaktRechthoek(paddleRect, 3)) {
-				ball.bouncePaddle(addedVelocity, 2);
 				geraakt = true;
 			}
 			if (ball.raaktRechthoek(paddleRect, 2)) {
-				ball.bouncePaddle(addedVelocity, 1);
 				geraakt = true;
 			}
 			if (ball.raaktRechthoek(paddleRect, 4)) {
-				ball.bouncePaddle(addedVelocity, 3);
 				geraakt = true;
 			}
 			if (ball.raaktRechthoek(paddleRect, 1)) {
-				ball.bouncePaddle(addedVelocity, 4);
 				geraakt = true;
 			}
 			
 			if (geraakt) {
+				ball.hitBlock(paddleRect, false);
+				ball.setVelocity(ball.getVelocity().plus(addedVelocity));
 				balls = Arrays.stream(paddle.hitPaddleReplicationHandler(balls, ball)).filter(b -> b != null).toArray(Ball[]::new);
 				paddle = paddle.ballHitPaddle();
 				Alpha newAlpha = new Alpha(ball.getCenter(), ball.getDiameter(), ball.getVelocity().plus(BALL_VEL_VARIATIONS[4]));
@@ -348,22 +353,19 @@ public class BreakoutState {
 			boolean geraakt = false;
 			Ball tempAlpha = new NormalBall(alpha.getCenter(), alpha.getDiameter(), alpha.getVelocity());
 			if (tempAlpha.raaktRechthoek(paddleRect, 3)) {
-				tempAlpha.bouncePaddle(addedVelocity, 2);
 				geraakt = true;
 			}
 			if (tempAlpha.raaktRechthoek(paddleRect, 2)) {
-				tempAlpha.bouncePaddle(addedVelocity, 1);
 				geraakt = true;
 			}
 			if (tempAlpha.raaktRechthoek(paddleRect, 4)) {
-				tempAlpha.bouncePaddle(addedVelocity, 3);
 				geraakt = true;
 			}
 			if (tempAlpha.raaktRechthoek(paddleRect, 1)) {
-				tempAlpha.bouncePaddle(addedVelocity, 4);
 				geraakt = true;
 			}
 			if (geraakt) {
+				tempAlpha.hitBlock(paddleRect, false);
 				alpha.changeAlphaFromBall(tempAlpha);
 				Ball newBall = new NormalBall(alpha.getCenter(), alpha.getDiameter(), alpha.getVelocity().plus(BALL_VEL_VARIATIONS[4]));
 				newBall.linkTo(alpha);

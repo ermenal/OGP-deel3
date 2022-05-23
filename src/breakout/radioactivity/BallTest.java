@@ -73,7 +73,7 @@ public class BallTest {
 	}	
 	
 	@Test
-	void testBallsEquals() {
+	void testBallsEqualContent() {
 		//Testing normal & supercharged ball1 properties
 		assertTrue(normalBall1.getCenter().equals(center1));
 		assertTrue(normalBall1.getDiameter() == diameter1);
@@ -83,15 +83,15 @@ public class BallTest {
 		assertTrue(superchargedBall1.getDiameter() == diameter1);
 		assertTrue(superchargedBall1.getVelocity().equals(velocity1));
 		
-		//Testing normalBall & superchargedBall equals methods
+		//Testing normalBall & superchargedBall equalContent methods
 		
-		assertTrue(normalBall1.equals(new NormalBall(center1, diameter1, velocity1)));
-		assertFalse(normalBall1.equals(superchargedBall1));
+		assertTrue(normalBall1.equalContent(new NormalBall(center1, diameter1, velocity1)));
+		assertFalse(normalBall1.equalContent(superchargedBall1));
 		
-		assertTrue(superchargedBall1.equals(new SuperchargedBall(center1, diameter1, velocity1, 0)));
+		assertTrue(superchargedBall1.equalContent(new SuperchargedBall(center1, diameter1, velocity1, 0)));
 		
-		assertFalse(normalBall1.equals(null));
-		assertFalse(superchargedBall1.equals(null));
+		assertFalse(normalBall1.equalContent(null));
+		assertFalse(superchargedBall1.equalContent(null));
 		
 		assertEquals(Color.WHITE, normalBall1.getColor());
 		assertEquals(Color.GREEN, superchargedBall1.getColor());
@@ -104,22 +104,22 @@ public class BallTest {
 		Ball ball1BeforeMoving = normalBall1.cloneBallWithChangedVelocity(zeroVector);
 		Ball ball1AfterMoving = new NormalBall(normalBall1.getCenter().plus(normalBall1.getVelocity()), diameter1, velocity1);
 		
-		assertTrue(normalBall1.equals(ball1BeforeMoving));
+		assertTrue(normalBall1.equalContent(ball1BeforeMoving));
 		normalBall1.moveBall(br1, 1);
-		assertFalse(normalBall1.equals(ball1BeforeMoving));
-		assertTrue(normalBall1.equals(ball1AfterMoving));
+		assertFalse(normalBall1.equalContent(ball1BeforeMoving));
+		assertTrue(normalBall1.equalContent(ball1AfterMoving));
 		
 		Ball ball1AfterMoving5Ms = new NormalBall(normalBall1.getCenter().plus(velocity1.scaled(5)), diameter1, velocity1);
 		normalBall1.moveBall(br1, 5);
-		assertTrue(normalBall1.equals(ball1AfterMoving5Ms));
-		assertFalse(normalBall1.equals(ball1BeforeMoving));
-		assertFalse(normalBall1.equals(ball1AfterMoving));
+		assertTrue(normalBall1.equalContent(ball1AfterMoving5Ms));
+		assertFalse(normalBall1.equalContent(ball1BeforeMoving));
+		assertFalse(normalBall1.equalContent(ball1AfterMoving));
 		ball1AfterMoving.moveBall(br1, 5);
-		assertTrue(normalBall1.equals(ball1AfterMoving));
+		assertTrue(normalBall1.equalContent(ball1AfterMoving));
 		
 		Ball ball2AfterMoving30Ms = new NormalBall(new Point(center2.getX(), 250), diameter2, velocity2);
 		normalBall2.moveBall(br2, 30);
-		assertTrue(normalBall2.equals(ball2AfterMoving30Ms));
+		assertTrue(normalBall2.equalContent(ball2AfterMoving30Ms));
 	}
 	
 	@Test
@@ -128,32 +128,32 @@ public class BallTest {
 		Ball ball1BeforeMoving = superchargedBall1.cloneBallWithChangedVelocity(zeroVector);
 		Ball ball1AfterMoving = new SuperchargedBall(superchargedBall1.getCenter().plus(superchargedBall1.getVelocity()), diameter1, velocity1, 0);
 		
-		assertTrue(superchargedBall1.equals(ball1BeforeMoving));
+		assertTrue(superchargedBall1.equalContent(ball1BeforeMoving));
 		superchargedBall1.moveBall(br1, 1);
-		assertFalse(superchargedBall1.equals(ball1BeforeMoving));
-		assertTrue(superchargedBall1.equals(ball1AfterMoving));
+		assertFalse(superchargedBall1.equalContent(ball1BeforeMoving));
+		assertTrue(superchargedBall1.equalContent(ball1AfterMoving));
 		
 		Ball ball1AfterMoving5Ms = new SuperchargedBall(superchargedBall1.getCenter().plus(velocity1.scaled(5)), diameter1, velocity1, 0);
 		superchargedBall1.moveBall(br1, 5);
-		assertTrue(superchargedBall1.equals(ball1AfterMoving5Ms));
-		assertFalse(superchargedBall1.equals(ball1BeforeMoving));
-		assertFalse(superchargedBall1.equals(ball1AfterMoving));
+		assertTrue(superchargedBall1.equalContent(ball1AfterMoving5Ms));
+		assertFalse(superchargedBall1.equalContent(ball1BeforeMoving));
+		assertFalse(superchargedBall1.equalContent(ball1AfterMoving));
 		ball1AfterMoving.moveBall(br1, 5);
-		assertTrue(superchargedBall1.equals(ball1AfterMoving));
+		assertTrue(superchargedBall1.equalContent(ball1AfterMoving));
 	}
 	
 	@Test
 	void testSuperchargedTimeHandler() {
 		Ball ball1BeforeMoving = normalBall1.cloneBallWithChangedVelocity(zeroVector);
-		assertTrue(normalBall1.superchargedTimeHandler(10, 10000).equals(ball1BeforeMoving));
-		assertTrue(normalBall1.equals(ball1BeforeMoving));
-		assertTrue(normalBall1.superchargedTimeHandler(10001, 10000).equals(ball1BeforeMoving));
+		assertTrue(normalBall1.superchargedTimeHandler(10, 10000).equalContent(ball1BeforeMoving));
+		assertTrue(normalBall1.equalContent(ball1BeforeMoving));
+		assertTrue(normalBall1.superchargedTimeHandler(10001, 10000).equalContent(ball1BeforeMoving));
 		
 		Ball superchargedBall1BeforeHandler = superchargedBall1.cloneBallWithChangedVelocity(zeroVector);
 		Ball superchargedBall1AfterHandler = new SuperchargedBall(center1, diameter1, velocity1, 10);
-		assertFalse(superchargedBall1.superchargedTimeHandler(10, 10000).equals(superchargedBall1BeforeHandler));
-		assertTrue(superchargedBall1.equals(superchargedBall1AfterHandler));
-		assertTrue(superchargedBall1.superchargedTimeHandler(10001, 10000).equals(ball1BeforeMoving));
+		assertFalse(superchargedBall1.superchargedTimeHandler(10, 10000).equalContent(superchargedBall1BeforeHandler));
+		assertTrue(superchargedBall1.equalContent(superchargedBall1AfterHandler));
+		assertTrue(superchargedBall1.superchargedTimeHandler(10001, 10000).equalContent(ball1BeforeMoving));
 	}
 	
 	@Test
@@ -171,17 +171,17 @@ public class BallTest {
 		Ball ball2BeforeBounce = new NormalBall(center2, diameter2, velocity2);
 		Ball ball2AfterBounce = new NormalBall(center2, diameter2, velocity2.mirrorOver(new Vector(0, 1)));
 		
-		assertTrue(normalBall1.equals(ball1BeforeBounce));
-		assertFalse(normalBall1.equals(ball1AfterBounce));
+		assertTrue(normalBall1.equalContent(ball1BeforeBounce));
+		assertFalse(normalBall1.equalContent(ball1AfterBounce));
 		normalBall1.hitBlock(normalBlockRectangle1, true);
-		assertFalse(normalBall1.equals(ball1BeforeBounce));
-		assertTrue(normalBall1.equals(ball1AfterBounce));
+		assertFalse(normalBall1.equalContent(ball1BeforeBounce));
+		assertTrue(normalBall1.equalContent(ball1AfterBounce));
 		
-		assertTrue(normalBall2.equals(ball2BeforeBounce));
-		assertFalse(normalBall2.equals(ball2AfterBounce));
+		assertTrue(normalBall2.equalContent(ball2BeforeBounce));
+		assertFalse(normalBall2.equalContent(ball2AfterBounce));
 		normalBall2.hitBlock(normalBlockRectangle2, true);
-		assertFalse(normalBall2.equals(ball2BeforeBounce));
-		assertTrue(normalBall2.equals(ball2AfterBounce));
+		assertFalse(normalBall2.equalContent(ball2BeforeBounce));
+		assertTrue(normalBall2.equalContent(ball2AfterBounce));
 	}
 	
 	@Test
@@ -199,17 +199,17 @@ public class BallTest {
 		Ball ball2BeforeBounce = new SuperchargedBall(center2, diameter2, velocity2, 0);
 		Ball ball2AfterBounce = new SuperchargedBall(center2, diameter2, velocity2.mirrorOver(new Vector(0, 1)), 0);
 		
-		assertTrue(superchargedBall1.equals(ball1BeforeBounce));
-		assertFalse(superchargedBall1.equals(ball1AfterBounce));
+		assertTrue(superchargedBall1.equalContent(ball1BeforeBounce));
+		assertFalse(superchargedBall1.equalContent(ball1AfterBounce));
 		superchargedBall1.hitBlock(normalBlockRectangle1, true);
-		assertTrue(superchargedBall1.equals(ball1BeforeBounce));
-		assertFalse(superchargedBall1.equals(ball1AfterBounce));
+		assertTrue(superchargedBall1.equalContent(ball1BeforeBounce));
+		assertFalse(superchargedBall1.equalContent(ball1AfterBounce));
 		
-		assertTrue(superchargedBall2.equals(ball2BeforeBounce));
-		assertFalse(superchargedBall2.equals(ball2AfterBounce));
+		assertTrue(superchargedBall2.equalContent(ball2BeforeBounce));
+		assertFalse(superchargedBall2.equalContent(ball2AfterBounce));
 		superchargedBall2.hitBlock(sturdyBlockRectangle2, false);
-		assertFalse(superchargedBall2.equals(ball2BeforeBounce));
-		assertTrue(superchargedBall2.equals(ball2AfterBounce));
+		assertFalse(superchargedBall2.equalContent(ball2BeforeBounce));
+		assertTrue(superchargedBall2.equalContent(ball2AfterBounce));
 	}
 	
 }

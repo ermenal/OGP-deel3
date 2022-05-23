@@ -23,4 +23,9 @@ public class NormalBall extends Ball{
 		}
 		return retBall;
 	}
+	
+	public boolean equalContent(Object obj) {
+		return super.equalContent(obj);
+
+	}
 }

@@ -73,12 +73,40 @@ public class Alpha {
 		return retAlpha;
 	}
 	
+	public boolean equalContent(Object obj) {
+		if (obj == null)
+			return false;
+		return obj.getClass() == getClass() && 
+				((Alpha)obj).getCenter().equals(center) &&
+				((Alpha)obj).getDiameter() == diameter &&
+				((Alpha)obj).getVelocity().equals(velocity);
+	}
+	
 	public void changeAlphaFromBall(Ball ball) {
 		// Bounce effecten op een temp ball uitvoeren, dan die stats naar de alpha zetten
 		if (!center.equals(ball.getCenter()))
 			center = ball.getCenter();
 		if (!velocity.equals(ball.getVelocity()))
 			velocity = ball.getVelocity();
+	}
+	
+	public void moveAlpha(Point br, int timeElapsed){
+		Point newCenter = center.plus(velocity.scaled(timeElapsed));
+		if (newCenter.getX() - diameter/2 < 0) {
+			newCenter = new Point(diameter/2, newCenter.getY());
+		}
+		if (newCenter.getX() + diameter/2 > br.getX()) {
+			newCenter = new Point(br.getX() - diameter/2, newCenter.getY());
+		}
+		
+		if (newCenter.getY() + diameter/2 > br.getY()) {
+			newCenter = new Point(newCenter.getX(), br.getY() - diameter/2);
+		}
+		
+		if (newCenter.getY() - diameter/2 < 0) {
+			newCenter = new Point(newCenter.getX(), diameter/2);
+		}
+		center = newCenter;
 	}
 	
 	public void bounceWall(int wallNumber) {

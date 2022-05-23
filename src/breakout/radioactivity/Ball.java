@@ -103,6 +103,16 @@ public abstract class Ball {
 	
 	public abstract Ball clone();
 	
+	public boolean equalContent(Object obj) {
+		if (obj == null)
+			return false;
+		return obj.getClass() == getClass() && 
+				((Ball)obj).getCenter().equals(center) &&
+				((Ball)obj).getDiameter() == diameter &&
+				((Ball)obj).getVelocity().equals(velocity);	
+
+	}
+	
 	public void moveBall(Point br, int timeElapsed) {
 		Point newCenter = center.plus(velocity.scaled(timeElapsed));
 		if (newCenter.getX() - diameter/2 < 0) {
@@ -122,47 +132,8 @@ public abstract class Ball {
 		center = newCenter;
 	}
 	
-	public void bounceWall(int wallNumber) {
-		
-		if (wallNumber == 1) {
-			// leftWall
-			velocity = velocity.mirrorOver(new Vector(1, 0));
-			return;
-		}
-		if (wallNumber == 2) {
-			// topWall
-			velocity = velocity.mirrorOver(new Vector(0, 1));
-			return;
-		}
-		if (wallNumber == 3) {
-			// righttWall
-			velocity = velocity.mirrorOver(new Vector(-1, 0));
-		}
-	}
-	
 	public void linkedAlphaHitWall(Alpha alpha) {
 		velocity = Vector.magnetSpeed(alpha.getCenter(), center, eCharge, velocity);
-	}
-	
-	public void bouncePaddle(Vector addedVelocity, int paddleSideNumber) {
-		if (paddleSideNumber == 1) {
-			// leftSide
-			velocity = velocity.mirrorOver(new Vector(-1, 0)).plus(addedVelocity);
-			return;
-		}
-		if (paddleSideNumber == 2) {
-			// topSide
-			velocity = velocity.mirrorOver(new Vector(0, -1)).plus(addedVelocity);
-			return;
-		}
-		if (paddleSideNumber == 3) {
-			// rightSide
-			velocity = velocity.mirrorOver(new Vector(1, 0)).plus(addedVelocity);
-		}
-		if (paddleSideNumber == 4) {
-			// bottomSide
-			velocity = velocity.mirrorOver(new Vector(0, 1).plus(addedVelocity));
-		}
 	}
 	
 	public boolean raakDottedProduct(Vector velocity, Vector n) {
