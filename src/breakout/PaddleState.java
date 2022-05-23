@@ -188,9 +188,9 @@ public abstract class PaddleState {
 	 * @post All of the cloned balls in the resulting array are behind the elements from {@code balls}. The cloned balls' classes, time left supercharged, centers and diameters 
 	 * 		 are all the same as {@code ball} and their velocities are equal to the sum of one of the Vectors from {@code AddedVelocities} and the velocitiy from {@code ball}.
 	 * 		| IntStream.range(balls.length, result.length).allMatch(i ->
-	 * 		| 	result[i].equals(ball.cloneBallWithChangedVelocity(getAddedVelocities()[0])) ||
-	 * 		|	result[i].equals(ball.cloneBallWithChangedVelocity(getAddedVelocities()[1])) ||
-	 * 		|	result[i].equals(ball.cloneBallWithChangedVelocity(getAddedVelocities()[2])) )
+	 * 		| 	result[i].equalContent(ball.cloneBallWithChangedVelocity(getAddedVelocities()[0])) ||
+	 * 		|	result[i].equalContent(ball.cloneBallWithChangedVelocity(getAddedVelocities()[1])) ||
+	 * 		|	result[i].equalContent(ball.cloneBallWithChangedVelocity(getAddedVelocities()[2])) )
 	 */
 	
 	public abstract Ball[] hitPaddleReplicationHandler(Ball[] balls, Ball ball);
@@ -212,16 +212,16 @@ public abstract class PaddleState {
 	 * @post The resulting paddle's center's Y coordinate has remained the same
 	 * 		| result.getCenter().getY() == old(getCenter()).getY()
 	 * 
-	 * @post The resulting paddle has moved right by {@code 10 * elapsedTime} units, unless it would have gone outside of the field,
+	 * @post The resulting paddle has moved right by {@code 20 * elapsedTime} units, unless it would have gone outside of the field,
 	 * 		 in which case its center's x-coordinate has been adjusted keeping the paddle's size in mind 
-	 * 		| result.getCenter().getX() == old(getCenter()).getX() + 10*elapsedTime ||
+	 * 		| result.getCenter().getX() == old(getCenter()).getX() + 20*elapsedTime ||
 	 * 		| result.getCenter().getX() == br.getX() - getSize().getX()
 	 */
 	
 	public abstract PaddleState movePaddleRight(Point br, int elapsedTime);
 	
 	/**
-	 * Returns a new paddle object that has moved {@code 10 * elapsedTime} units to the left, keeping in mind that it can't go outside of the field
+	 * Returns a new paddle object that has moved {@code 20 * elapsedTime} units to the left, keeping in mind that it can't go outside of the field
 	 * 
 	 * @pre Argument {@code elapsedTime} is greater than 0
 	 * 		| elapsedTime > 0
@@ -235,9 +235,9 @@ public abstract class PaddleState {
 	 * @post The resulting paddle's center's Y coordinate has remained the same
 	 * 		| result.getCenter().getY() == old(getCenter()).getY()
 	 * 
-	 * @post The resulting paddle has moved left by {@code 10 * elapsedTime} units, unless it would have gone outside of the field, 
+	 * @post The resulting paddle has moved left by {@code 20 * elapsedTime} units, unless it would have gone outside of the field, 
 	 * 		 in which case its center's x-coordinate has been adjusted keeping the paddle's size in mind
-	 * 		| result.getCenter().getX() == old(getCenter()).getX() - 10*elapsedTime || 
+	 * 		| result.getCenter().getX() == old(getCenter()).getX() - 20*elapsedTime || 
 	 * 		| result.getCenter().getX() == getSize().getX()
 	 */
 	

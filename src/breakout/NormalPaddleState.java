@@ -87,7 +87,7 @@ public class NormalPaddleState extends PaddleState{
 	}
 	
 	/**
-	 * Returns a new normal paddle that has moved {@code 10 * elapsedTime} units to the right, keeping in mind that it can't go outside of the field
+	 * Returns a new normal paddle that has moved {@code 20 * elapsedTime} units to the right, keeping in mind that it can't go outside of the field
 	 * 
 	 * @pre Argument {@code br} is not {@code null}
 	 * 		| br != null
@@ -100,9 +100,9 @@ public class NormalPaddleState extends PaddleState{
 	 * 		| result.getClass().equals(getClass())
 	 * @post The resulting paddle's center's Y coordinate has remained the same
 	 * 		| result.getCenter().getY() == old(getCenter()).getY()
-	 * @post The resulting paddle has moved right by {@code 10 * elapsedTime} units, unless it would have gone outside of the field,
+	 * @post The resulting paddle has moved right by {@code 20 * elapsedTime} units, unless it would have gone outside of the field,
 	 * 		 in which case its center's x-coordinate has been adjusted keeping the paddle's size in mind 
-	 * 		| result.getCenter().getX() == old(getCenter()).getX() + 10*elapsedTime ||
+	 * 		| result.getCenter().getX() == old(getCenter()).getX() + 20*elapsedTime ||
 	 * 		| result.getCenter().getX() == br.getX() - getSize().getX()
 	 */
 	
@@ -118,7 +118,7 @@ public class NormalPaddleState extends PaddleState{
 	}
 	
 	/**
-	 * Returns a new normal paddle that has moved {@code 10 * elapsedTime} units to the left, keeping in mind that it can't go outside of the field
+	 * Returns a new normal paddle that has moved {@code 20 * elapsedTime} units to the left, keeping in mind that it can't go outside of the field
 	 * 
 	 * @pre Argument {@code elapsedTime} is greater than 0
 	 * 		| elapsedTime > 0
@@ -129,9 +129,9 @@ public class NormalPaddleState extends PaddleState{
 	 * 		| result.getClass().equals(getClass())
 	 * @post The resulting paddle's center's Y coordinate has remained the same
 	 * 		| result.getCenter().getY() == old(getCenter()).getY()
-	 * @post The resulting paddle has moved left by {@code 10 * elapsedTime} units, unless it would have gone outside of the field, 
+	 * @post The resulting paddle has moved left by {@code 20 * elapsedTime} units, unless it would have gone outside of the field, 
 	 * 		 in which case its center's x-coordinate has been adjusted keeping the paddle's size in mind
-	 * 		| result.getCenter().getX() == old(getCenter()).getX() - 10*elapsedTime || 
+	 * 		| result.getCenter().getX() == old(getCenter()).getX() - 20*elapsedTime || 
 	 * 		| result.getCenter().getX() == getSize().getX()
 	 */
 	
