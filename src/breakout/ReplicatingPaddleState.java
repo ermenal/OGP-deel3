@@ -36,20 +36,8 @@ public class ReplicatingPaddleState extends PaddleState{
 	 */
 	
 	public ReplicatingPaddleState(Point center, int amountOfReplications) {
-		super(center);
+		super(center, Color.PINK);
 		this.amountOfReplications = amountOfReplications;
-	}
-	
-	/**
-	 * Returns the paddle's color, which for a replicator paddle is pink.
-	 * 
-	 * @post | result == Color.PINK
-	 */
-	
-	@Override
-	
-	public Color getColor() {
-		return Color.PINK;
 	}
 	
 	/**

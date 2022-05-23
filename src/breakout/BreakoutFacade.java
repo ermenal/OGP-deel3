@@ -61,7 +61,11 @@ public class BreakoutFacade {
 	}
 
 	public BlockState createSturdyBlockState(Point topLeft, Point bottomRight, int i) {
-		return new SturdyBlockState(topLeft, bottomRight, i);
+		if (i == 1)
+			return new SturdyBlockState(topLeft, bottomRight, i, Color.YELLOW);
+		if (i == 2)
+			return new SturdyBlockState(topLeft, bottomRight, i, Color.ORANGE);
+		return new SturdyBlockState(topLeft, bottomRight, i, Color.RED);
 	}
 
 	public BlockState createReplicatorBlockState(Point topLeft, Point bottomRight) {

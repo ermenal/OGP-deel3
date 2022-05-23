@@ -177,13 +177,18 @@ public class BreakoutState {
 	
 	public void tick(int paddleDir, int elapsedTime) {
 
-		for(int i=0; i<elapsedTime; i++) {
+		int tickCutOff = 20;
 		
-		superchargedTimeHandler(1);
+		if (elapsedTime > tickCutOff) {
+			tick(paddleDir, tickCutOff);
+			tick(paddleDir, elapsedTime-tickCutOff);
+		}else {
+		
+		superchargedTimeHandler(elapsedTime);
 	
-		moveAllBalls(1);
+		moveAllBalls(elapsedTime);
 		
-		moveAllAlphas(1);
+		moveAllAlphas(elapsedTime);
 	
 		wallCollisionHandler();
 		
@@ -194,7 +199,7 @@ public class BreakoutState {
 		paddleBallCollisionHandler(paddleDir);
 		
 		paddleAlphaCollisionHandler(paddleDir);
-	}
+		}
 }
 	
 	

@@ -21,19 +21,7 @@ import breakout.radioactivity.*;
 public class NormalPaddleState extends PaddleState{
 
 	public NormalPaddleState(Point center) {
-		super(center);
-	}
-	
-	/**
-	 * Returns the paddle's color, which for a normal paddle is cyan.
-	 * 
-	 * @post | result == Color.CYAN
-	 */
-	
-	@Override
-	
-	public Color getColor() {
-		return Color.CYAN;
+		super(center, Color.CYAN);
 	}
 	
 	/**

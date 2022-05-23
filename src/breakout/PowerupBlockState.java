@@ -37,19 +37,7 @@ public class PowerupBlockState extends BlockState {
 	 */
 	
 	public PowerupBlockState(Point topLeft, Point bottomRight){
-		super(topLeft, bottomRight);
-	}
-	
-	/**
-	 * Returns the block's color, which for a powerup block is blue.
-	 * 
-	 * @post | result == Color.BLUE
-	 */
-	
-	@Override
-	
-	public Color getColor() {
-		return Color.BLUE;
+		super(topLeft, bottomRight, Color.BLUE);
 	}
 	
 	/**

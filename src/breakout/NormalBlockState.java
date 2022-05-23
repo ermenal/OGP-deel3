@@ -36,19 +36,7 @@ public class NormalBlockState extends BlockState {
 	 */
 	
 	public NormalBlockState(Point topLeft, Point bottomRight){
-		super(topLeft, bottomRight);
-	}
-	
-	/**
-	 * Returns the block's color, which for a normal block is white
-	 * 
-	 * @post | result == Color.WHITE
-	 */
-	
-	@Override
-	
-	public Color getColor() {
-		return Color.WHITE;
+		super(topLeft, bottomRight, Color.WHITE);
 	}
 	
 	/**

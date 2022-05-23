@@ -30,6 +30,7 @@ public abstract class PaddleState {
 	private final Point center;
 	private static final Vector SIZE = new Vector(1500, 250);
 	private static final Vector[] ADDED_VELOCITIES = {new Vector(2, -2), new Vector(2, 2), new Vector(-2, 2)};
+	private final Color color;
 	
 	/**
 	 * Initializes this object so that it stores the given {@code center}.
@@ -40,8 +41,9 @@ public abstract class PaddleState {
 	 * @post | getCenter() == center
 	 */
 	
-	public PaddleState(Point center){
+	public PaddleState(Point center, Color color){
 		this.center = center;
+		this.color = color;
 	}
 	
 	
@@ -99,7 +101,9 @@ public abstract class PaddleState {
 	 * 		| result == Color.CYAN || result == Color.PINK
 	 */
 	
-	public abstract Color getColor();
+	public Color getColor() {
+		return color;
+	}
 	
 	/**
 	 * Returns the amount of balls that will be cloned on contact with this paddle.

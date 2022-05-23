@@ -43,9 +43,10 @@ public class SturdyBlockState extends BlockState {
 	 * @post | getHealth() == health
 	 */
 	
-	public SturdyBlockState(Point topLeft, Point bottomRight, int health){
-		super(topLeft, bottomRight);
+	public SturdyBlockState(Point topLeft, Point bottomRight, int health, Color color){
+		super(topLeft, bottomRight, color);
 		this.health = health;
+		
 	}
 	
 	/**
@@ -58,28 +59,6 @@ public class SturdyBlockState extends BlockState {
 	
 	public boolean getsDestroyedOnCollision() {
 		return health <= 1;
-	}
-	
-	/**
-	 * Returns the block's color, which for a sturdy block is dependent on the amount of health the block has left.
-	 * 
-	 * @post If the block has 1 health, it is yellow. If the block has 2 health, it is orange. If the block has 3 health, it is red.
-	 * 		| result == Color.YELLOW && getHealth() == 1 || 
-	 * 		| result == Color.ORANGE && getHealth() == 2 || 
-	 * 		| result == Color.RED && getHealth() == 3
-	 */
-	
-	@Override
-	
-	public Color getColor() {
-		switch(health) {
-		case 1: 
-			return Color.YELLOW;
-		case 2:
-			return Color.ORANGE;
-		default:
-			return Color.RED;
-		}
 	}
 	
 	/**
@@ -122,8 +101,10 @@ public class SturdyBlockState extends BlockState {
 	@Override
 	
 	public BlockState specialBlockHandler() {
-		if (health > 1)
-			return new SturdyBlockState(getTopLeft(), getBottomRight(), health-1);
+		if (health == 2)
+			return new SturdyBlockState(getTopLeft(), getBottomRight(), health-1, Color.YELLOW);
+		if (health == 3)
+			return new SturdyBlockState(getTopLeft(), getBottomRight(), health-1, Color.ORANGE);
 		return null;
 	}
 }

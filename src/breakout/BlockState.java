@@ -31,6 +31,7 @@ public abstract class BlockState {
 	
 	private final Point topLeft;
 	private final Point bottomRight;
+	private final Color color;
 
 	/**
 	 * Initializes this object so that it stores the given topLeft and bottomRight coordinates of the block
@@ -48,9 +49,10 @@ public abstract class BlockState {
 	 * @post | getBottomRight() == bottomRight
 	 */
 	
-	public BlockState(Point topLeft, Point bottomRight) {
+	public BlockState(Point topLeft, Point bottomRight, Color color) {
 		this.topLeft = topLeft;
 		this.bottomRight = bottomRight;
+		this.color = color;
 	}
 	
 	
@@ -87,7 +89,9 @@ public abstract class BlockState {
 	 * 		| result == Color.YELLOW || result == Color.GREEN || result == Color.BLUE
 	 */
 	
-	public abstract Color getColor();
+	public Color getColor() {
+		return color;
+	}
 	
 	/**
 	 * Returns the amount of health the block has or -1 if the block is not a sturdy block.

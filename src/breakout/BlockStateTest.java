@@ -2,6 +2,7 @@ package breakout;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.awt.Color;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,8 +46,8 @@ class BlockStateTest {
 		replicatorBlock1 = new ReplicatorBlockState(topLeft1, bottomRight1);
 		replicatorBlock2 = new ReplicatorBlockState(topLeft2, bottomRight2);
 		
-		sturdyBlock1 = new SturdyBlockState(topLeft1, bottomRight1, 3);
-		sturdyBlock2 = new SturdyBlockState(topLeft2, bottomRight2, 1);
+		sturdyBlock1 = new SturdyBlockState(topLeft1, bottomRight1, 3, Color.RED);
+		sturdyBlock2 = new SturdyBlockState(topLeft2, bottomRight2, 1, Color.YELLOW);
 	}
 
 	@Test
@@ -68,7 +69,7 @@ class BlockStateTest {
 		assertFalse(replicatorBlock1.equals(sturdyBlock1));
 		
 		assertTrue(sturdyBlock1.equals(sturdyBlock1));
-		assertTrue(sturdyBlock1.equals(new SturdyBlockState(topLeft1, bottomRight1, 3)));
+		assertTrue(sturdyBlock1.equals(new SturdyBlockState(topLeft1, bottomRight1, 3, Color.RED)));
 		assertFalse(sturdyBlock1.equals(sturdyBlock2));
 		assertFalse(sturdyBlock1.equals(normalBlock1));
 	}
@@ -125,7 +126,7 @@ class BlockStateTest {
 		assertTrue(powerupBlock1.specialBlockHandler() == null);
 		assertTrue(replicatorBlock2.specialBlockHandler() == null);
 		
-		assertTrue(sturdyBlock1.specialBlockHandler().equals(new SturdyBlockState(topLeft1, bottomRight1, 2)));
+		assertTrue(sturdyBlock1.specialBlockHandler().equals(new SturdyBlockState(topLeft1, bottomRight1, 2, Color.ORANGE)));
 		assertTrue(sturdyBlock2.specialBlockHandler() == null);
 	}
 

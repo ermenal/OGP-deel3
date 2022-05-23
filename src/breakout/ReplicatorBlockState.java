@@ -36,19 +36,7 @@ public class ReplicatorBlockState extends BlockState {
 	 */
 	
 	public ReplicatorBlockState(Point topLeft, Point bottomRight){
-		super(topLeft, bottomRight);
-	}
-	
-	/**
-	 * Returns the block's color, which for a replicator block is green.
-	 * 
-	 * @post | result == Color.GREEN
-	 */
-	
-	@Override
-	
-	public Color getColor() {
-		return Color.GREEN;
+		super(topLeft, bottomRight, Color.GREEN);
 	}
 	
 	/**
