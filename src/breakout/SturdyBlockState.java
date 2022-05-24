@@ -11,6 +11,7 @@ import breakout.utils.*;
  * @invar | getBottomRight() != null
  * @invar | getTopLeft() != null
  * @invar | getHealth() > 0 && getHealth() <= 3
+ * @invar | getColor() == Color.YELLOW || getColor() == Color.ORANGE || getColor() == Color.RED
  * 
  * @invar The bottom right coordinates of the block are below and to the right of top left coordinates of the block
  *     | getTopLeft().getX() < getBottomRight().getX() &&

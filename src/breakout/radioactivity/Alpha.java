@@ -5,7 +5,6 @@ import java.util.*;
 
 import breakout.utils.Point;
 import breakout.utils.Vector;
-import breakout.utils.Rect;
 
 public class Alpha {
 	

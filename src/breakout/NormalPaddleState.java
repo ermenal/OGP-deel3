@@ -13,6 +13,7 @@ import breakout.radioactivity.*;
  	* @invar The paddle's center is not {@code null}
  	* 		| getCenter() != null
  	* @invar | getSize().equals(new Vector(1500, 250))
+ 	* @invar | getColor() == Color.CYAN
  	* @invar The amount of replications this paddle will spawn when a ball collides with it is 0
  	* 		| getAmountOfReplications() == 0
  	* @invar | Arrays.equals(getAddedVelocities(), new Vector[] {new Vector(2, -2), new Vector(2, 2), new Vector(-2, 2)})

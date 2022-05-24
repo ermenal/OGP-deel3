@@ -11,6 +11,7 @@ import java.awt.Color;
  * @invar | getBottomRight() != null
  * @invar | getTopLeft() != null
  * @invar | getHealth() == -1
+ * @invar | getColor() == Color.WHITE
  * 
  * @invar The bottom right coordinates of the block are below and to the right of top left coordinates of the block
  *     | getTopLeft().getX() < getBottomRight().getX() &&

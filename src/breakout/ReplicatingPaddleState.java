@@ -11,6 +11,7 @@ import breakout.radioactivity.*;
 	 * 
  	* @invar | getCenter() != null
  	* @invar | getSize().equals(new Vector(1500, 250))
+ 	* @invar | getColor() == Color.PINK
  	* @invar The amount of replications this paddle will spawn when a ball collides with it is at least 1 and at most 3 
  	* 		| getAmountOfReplications() >= 1 && getAmountOfReplications() <= 3
  	* @invar | getAddedVelocities().length == 3

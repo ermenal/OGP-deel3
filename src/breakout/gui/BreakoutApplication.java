@@ -20,10 +20,10 @@ SSS!###!#S
 """;
 
 	public static final String initMap2 = """
-#!##R#####
-###!##SS##
 ##########
-RSSRR###RR
+###!######
+##########
+SSS!###!#S
      o
 
      =

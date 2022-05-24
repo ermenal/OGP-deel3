@@ -149,6 +149,9 @@ class BallAlphaLinkTest {
 		normalBall1.linkTo(alpha1);
 		
 		try {fac.createBreakoutState(alphas1, balls1, blocks, br, paddle);} catch (Exception e) {fail();}
+		
+		normalBall1.unLink(alpha1);
+		normalBall1.unLink(alpha1);
 	}
 	
 	@Test
@@ -201,6 +204,14 @@ class BallAlphaLinkTest {
 		}
 		
 		assertTrue(state1.getBlocks().length == 3);
+	}
+	
+	@Test
+	void testBallAlphaLinksEqualContent() {
+		Ball nb1 = normalBall1.clone();
+		assertTrue(normalBall1.equalContent(nb1));
+		normalBall1.linkTo(alpha1);
+		assertFalse(normalBall1.equalContent(nb1));
 	}
 
 }

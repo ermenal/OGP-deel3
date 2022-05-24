@@ -12,6 +12,9 @@ import breakout.radioactivity.*;
  * @invar | getBottomRight() != null
  * @invar | getTopLeft() != null
  * @invar | getHealth() == -1 || getHealth() > 0 && getHealth() <= 3
+ * @invar | getColor() != null
+ * @invar | getColor() == Color.YELLOW || getColor() == Color.ORANGE || getColor() == Color.RED||
+ * 		  | getColor() == Color.BLUE || getColor() == Color.GREEN || getColor() == Color.WHITE
  * 
  * @invar The bottom right coordinates of the block are below and to the right of top left coordinates of the block
  *     | getTopLeft().getX() < getBottomRight().getX() &&
