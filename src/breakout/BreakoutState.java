@@ -426,7 +426,11 @@ public class BreakoutState {
 		return MAX_SUPERCHARGED_TIME;
 	}
 	
-	
+	/**
+	 * Calls all methods nescessary for moving the balls and alphas, handling collisions and handling interactions between blocks, balls, alphas and the paddle
+	 * 
+	 * @mutates | this
+	 */
 	
 	public void tick(int paddleDir, int elapsedTime) {
 		
@@ -445,11 +449,7 @@ public class BreakoutState {
 		paddleBallCollisionHandler(paddleDir);
 		
 		paddleAlphaCollisionHandler(paddleDir);
-}
-	
-	
-	
-	
+	}
 	
 	private void superchargedTimeHandler(int elapsedTime) {
 		for (int i=0;i<balls.length;i++) {
@@ -643,17 +643,65 @@ public class BreakoutState {
 		}
 	}
 	
+	/**
+	 * Moves the paddle to the right, taking into consideration how much time has passed since the last tick and keeping in mind it can't go outside of the field.
+	 * 
+	 * @pre Argument {@code elapsedTime} should be greater than 0.
+	 * 		| elapsedTime > 0
+	 * 
+	 * @mutates | this
+	 * 
+	 * @post The paddle is the same kind of paddle as the old paddle
+	 * 		| getPaddle().getClass().equals(old(getPaddle()).getClass())
+	 * @post The paddle's y-coordinate hasn't changed
+	 * 		| getPaddle().getCenter().getY() == old(getPaddle()).getCenter().getY()
+	 * @post The paddle has moved to the right by {@code elapsedTime * 20} units, unless it would have gone outside of the field, in which case it does not go any further than the right of the field
+	 * 	   	| getPaddle().getCenter().getX() == old(getPaddle()).getCenter().getX() + 20*elapsedTime|| 
+	 * 	   	| getPaddle().getCenter().getX() == getBottomRight().getX() - getPaddle().getSize().getX()
+	 */
+	
 	public void movePaddleRight(int elapsedTime) {
 		paddle = paddle.movePaddleRight(getBottomRight(), elapsedTime);
 	}
+	
+	/**
+	 * Moves the paddle to the left, taking into consideration how much time has passed since the last tick and keeping in mind it can't go outside of the field.
+	 * 
+	 * @pre Argument {@code elapsedTime} should be greater than 0.
+	 * 		| elapsedTime > 0
+	 * 
+	 * @mutates | this
+	 * 
+	 * @post The paddle is the same kind of paddle as the old paddle
+	 * 		| getPaddle().getClass().equals(old(getPaddle()).getClass())
+	 * @post The paddle's y-coordinate hasn't changed
+	 * 		| getPaddle().getCenter().getY() == old(getPaddle()).getCenter().getY()
+	 * @post The paddle has moved to the left by {@code elapsedTime * 20} units, unless it would have gone outside of the field, in which case it does not go any further than the left of the field
+	 * 	   	| getPaddle().getCenter().getX() == old(getPaddle()).getCenter().getX() - 20*elapsedTime|| 
+	 * 	   	| getPaddle().getCenter().getX() == getPaddle().getSize().getX()
+	 */
 	
 	public void movePaddleLeft(int elapsedTime) {
 		paddle = paddle.movePaddleLeft(elapsedTime);
 	}
 	
+	/**
+	 * Returns whether the game is won or not 
+	 * 
+	 * @post  The result is {@code true} if there are no more blocks on the field, and at least one ball is still in the game
+	 *     | result == (getBlocks().length == 0 && getBalls().length > 0)
+	 */
+	
 	public boolean isWon() {
 		return blocks.length == 0 && balls.length > 0;
 	}
+	
+	/**
+	 * Returns whether the game is lost or not
+	 * 
+	 * @post  The result is {@code true} if there are no more balls left in the game
+	 *    | result == (getBalls().length == 0)
+	 */
 	
 	public boolean isDead() {
 		return balls.length == 0;

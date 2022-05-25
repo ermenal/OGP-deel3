@@ -1,4 +1,4 @@
-package other;
+package breakout;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -9,10 +9,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import breakout.BlockState;
-import breakout.BreakoutFacade;
-import breakout.BreakoutState;
-import breakout.PaddleState;
 import breakout.radioactivity.Alpha;
 import breakout.radioactivity.Ball;
 import breakout.utils.Point;

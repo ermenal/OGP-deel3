@@ -75,6 +75,10 @@ public class PowerupBlockState extends BlockState {
 	 * 		| result.getDiameter() == ball.getDiameter() && 
 	 * 		| result.getVelocity() == ball.getVelocity() && 
 	 * 		| result.getTime() == 0
+	 * 
+	 * @post The resulting supercharged ball is linked to all alphas this ball was linked to. This ball has been unlinked from all of its linked alphas.
+	 * 		| ball.getAlphas().isEmpty() && 
+	 * 		| old(ball.getAlphas()).stream().allMatch(a -> !ball.getAlphas().contains(a) && result.getAlphas().contains(a)) 
 	 */
 	
 	@Override

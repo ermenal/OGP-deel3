@@ -1,4 +1,4 @@
-package other;
+package breakout;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,11 +7,6 @@ import java.util.Arrays;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import breakout.BlockState;
-import breakout.BreakoutFacade;
-import breakout.BreakoutState;
-import breakout.GameMap;
-import breakout.PaddleState;
 import breakout.radioactivity.Ball;
 import breakout.utils.Point;
 import breakout.utils.Vector;
