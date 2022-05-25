@@ -186,8 +186,8 @@ class BallAlphaLinkTest {
 		assertTrue(state2.getAlphas().length == 3);
 		assertTrue(state2.getBalls().length == 6);
 		
-		for (int i=0; i<100; i++) {
-			state2.tick(1, 1);
+		for (int i=0; i<5; i++) {
+			state2.tick(1, 20);
 		}
 		
 		assertTrue(state2.getBlocks().length == 2);
@@ -195,8 +195,8 @@ class BallAlphaLinkTest {
 		assertTrue(state2.getBalls().length == 6);
 		
 		assertTrue(state1.getBlocks().length == 4);
-		for (int i=0; i<100; i++) {
-			state1.tick(1, 1);
+		for (int i=0; i<5; i++) {
+			state1.tick(1, 20);
 		}
 		
 		assertTrue(state1.getBlocks().length == 3);
@@ -230,16 +230,18 @@ class BallAlphaLinkTest {
 		
 		BreakoutState state = new BreakoutState(balls, alphas, blocks, br, paddle);
 		
-		Ball[] get = state.getBalls();
+		Ball[] stateBalls = state.getBalls();
+		Alpha[] stateAlphas = state.getAlphas();
 		
-		for (int i=0; i<balls.length; i++) {
-			assertTrue(state.getBalls()[i] != balls[i]);
+		for (int i=0; i<stateBalls.length; i++) {
+			assertTrue(stateBalls[i] != balls[i]);
+			assertTrue(stateBalls[i].equalContent(balls[i]));
 			for (int j=0; j<alphas.length; j++) {
 				int idx = j;
 				if (balls[i].getAlphas().contains(alphas[j])) {
-					state.getBalls()[i].getAlphas().stream().anyMatch(a -> a.equalContent(alphas[idx]));
+					stateBalls[i].getAlphas().stream().anyMatch(a -> a.equalContent(alphas[idx]));
 				}else {
-					state.getBalls()[i].getAlphas().stream().noneMatch(a -> a.equalContent(alphas[idx]));
+					stateBalls[i].getAlphas().stream().noneMatch(a -> a.equalContent(alphas[idx]));
 				}
 			}
 		}

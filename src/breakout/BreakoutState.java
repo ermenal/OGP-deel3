@@ -9,6 +9,51 @@ import java.util.stream.Stream;
 import breakout.radioactivity.*;
 import breakout.utils.Point;
 import breakout.utils.Rect;
+import breakout.utils.Circle;
+
+/**
+ * @invar This object's balls array is not {@code null} 
+ * 		| getBalls() != null
+ * @invar This object's balls array has no elements that are {@code null}
+ * 		| Arrays.stream(getBalls()).noneMatch(e -> e == null)
+ * @invar If an alpha is a peer of a ball in this object's balls array, that alpha is in this object's alphas array
+ * 		| Arrays.stream(getBalls()).allMatch(b -> b.getAlphas().stream().allMatch(a -> Arrays.stream(getAlphas()).anyMatch(i -> a.equalContent(i)  )  ))
+ * @invar This object's balls array has no duplicate balls
+ * 		| IntStream.range(0, getBalls().length).noneMatch(i -> IntStream.range(0, getBalls().length).anyMatch(e -> getBalls()[i] == getBalls()[e] && i != e) )
+ * @invar This object's balls array's elements are entirely inside of the field
+ * 		| Arrays.stream(getBalls()).allMatch(b -> (new Rect(new Point(0, 0), getBottomRight())).contains(new Circle(b.getCenter(), b.getDiameter())) )
+ * 
+ * 
+ * @invar This object's alphas array is not {@code null} 
+ * 		| getAlphas() != null
+ * @invar This object's alphas array has no elements that are {@code null}
+ * 		| Arrays.stream(getAlphas()).noneMatch(e -> e == null)
+ * @invar If a ball is a peer of an alpha in this object's alphas array, that ball is in this object's balls array
+ *		| Arrays.stream(getAlphas()).allMatch(a -> a.getBalls().stream().allMatch(b -> Arrays.stream(getBalls()).anyMatch(i -> b.equalContent(i)  )  ))
+ * @invar This object's alphas array has no duplicate alpas
+ * 		| IntStream.range(0, getAlphas().length).noneMatch(i -> IntStream.range(0, getAlphas().length).anyMatch(e -> getAlphas()[i] == getAlphas()[e] && i != e) )
+ * @invar This object's alphas array's elements are entirely inside of the field 
+ * 		| Arrays.stream(getAlphas()).allMatch(a -> (new Rect(new Point(0, 0), getBottomRight())).contains(new Circle(a.getCenter(), a.getDiameter())) )
+ * 
+ * 
+ * @invar This object's blocks array is not {@code null}
+ * 		| getBlocks() != null
+ * @invar This object's blocks array's elements are not {@code null}
+ * 		| Arrays.stream(getBlocks()).noneMatch(e -> e == null)
+ * @invar This object's blocks array's elements are entirely inside of the field
+ * 		| Arrays.stream(getBlocks()).allMatch(e -> (new Rect(new Point(0, 0), getBottomRight())).contains(new Rect(e.getTopLeft(), e.getBottomRight())) )
+ * 
+ * 
+ * @invar This object's bottomRight point is not {@code null}
+ * 		| getBottomRight() != null
+ * @invar This object's bottomRight point is not to the left of or above the point with coordinates {@code (0, 0)}
+ * 		| getBottomRight().getX() >= 0 && getBottomRight().getY() >= 0
+ * 
+ * @invar This object's paddle is not {@code null} 
+ * 		| getPaddle() != null
+ * @invar This object's paddle is entirely inside of the field
+ * 		| (new Rect(new Point(0, 0), getBottomRight())).contains(new Rect(getPaddle().getTopLeft(), getPaddle().getBottomRight()))
+ */
 
 public class BreakoutState {
 	
@@ -22,30 +67,88 @@ public class BreakoutState {
 	/**
 	 * @invar | balls != null
 	 * @invar | Arrays.stream(balls).noneMatch(e -> e == null)
+	 * @invar | IntStream.range(0, balls.length).allMatch(b -> balls[b].getAlphas().stream().allMatch(a -> a.getBalls().contains(balls[b])))
+	 * @invar | IntStream.range(0, balls.length).noneMatch(i -> IntStream.range(0, balls.length).anyMatch(e -> balls[i] == balls[e] && i != e) )
+	 * @invar | Arrays.stream(balls).allMatch(b -> (new Rect(new Point(0, 0), bottomRight)).contains(new Circle(b.getCenter(), b.getDiameter())) )
 	 * 
+	 * @invar | alphas != null
+	 * @invar | Arrays.stream(alphas).noneMatch(e -> e == null)
+	 * @invar | IntStream.range(0, alphas.length).allMatch(a -> alphas[a].getBalls().stream().allMatch(b -> b.getAlphas().contains(alphas[a])))
+	 * @invar | IntStream.range(0, alphas.length).noneMatch(i -> IntStream.range(0, alphas.length).anyMatch(e -> alphas[i] == alphas[e] && i != e) )
+	 * @invar | Arrays.stream(alphas).allMatch(a -> (new Rect(new Point(0, 0), bottomRight)).contains(new Circle(a.getCenter(), a.getDiameter())) )
 	 * 
 	 * @invar | blocks != null
 	 * @invar | Arrays.stream(blocks).noneMatch(e -> e == null)
-	 * @invar | Arrays.stream(blocks).noneMatch(e -> 
-	 * 		  |		e.getTopLeft().getX() < 0 || 
-	 *        | 	e.getBottomRight().getX() > bottomRight.getX() ||
-	 *        |		e.getTopLeft().getY() < 0 || 
-	 *        |		e.getBottomRight().getY() > bottomRight.getY() )
+	 * @invar | Arrays.stream(blocks).allMatch(e -> (new Rect(new Point(0, 0), bottomRight)).contains(new Rect(e.getTopLeft(), e.getBottomRight())) )
 	 * 
 	 * @invar | bottomRight != null
 	 * @invar | bottomRight.getX() >= 0 && bottomRight.getY() >= 0
 	 * 
 	 * @invar | paddle != null
 	 * @invar | (new Rect(new Point(0, 0), bottomRight)).contains(new Rect(paddle.getTopLeft(), paddle.getBottomRight()))
-	 * @representationObject
 	 */
 	
+	/** @representationObject */
 	private Ball[] balls;
+	/** @representationObject */
 	private Alpha[] alphas;
+	/** @representationObject */
 	private BlockState[] blocks;
 	private final Point bottomRight;
 	private PaddleState paddle;
 	
+	/**
+	 * Initializes this object so that it stores the given balls, blocks, bottomRight point paddle.
+	 * 
+	 * @throws IllegalArgumentException if the given balls array is {@code null}
+	 * 	    | balls == null
+	 * @throws IllegalArgumentException if any of the given balls array's elements are {@code null}
+	 *      | Arrays.stream(balls).anyMatch(b -> b == null)
+	 * @throws IllegalArgumentException if any of the given balls array's elements are outside of the field
+	 * 	    | Arrays.stream(balls).anyMatch(b -> !(new Rect(new Point(0, 0), bottomRight)).contains(new Circle(b.getCenter(), b.getDiameter())) )
+	 * @throws IllegalArgumentException if there are any duplicate balls in the given balls array
+	 * 		| IntStream.range(0, balls.length).anyMatch(i -> IntStream.range(0, balls.length).anyMatch(e -> balls[i] == balls[e] && i != e) )
+	 *     
+	 * @throws IllegalArgumentException if the given blocks array is {@code null}
+	 * 	    | blocks == null
+	 * @throws IllegalArgumentException if any of the given blocks array's elements are {@code null}
+	 *      | Arrays.stream(blocks).anyMatch(b -> b == null)
+	 * @throws IllegalArgumentException if any of the given block array's elements are outside of the field   
+	 *      | Arrays.stream(blocks).anyMatch(e -> !(new Rect(new Point(0, 0), bottomRight)).contains(new Rect(e.getTopLeft(), e.getBottomRight())))
+	 *     
+	 * @throws IllegalArgumentException if the given {@code bottomRight} is {@code null}.
+	 * 	    | bottomRight == null
+	 * @throws IllegalArgumentException if the given {@code bottomRight} is to the left of or above the point with coordinates {@code (0, 0)}
+	 * 	    | bottomRight.getX() < 0 ||
+	 * 		| bottomRight.getY() < 0
+	 * 
+	 * @throws IllegalArgumentException if the given {@code paddle} is {@code null}
+	 * 	    | paddle == null
+	 * @throws IllegalArgumentException if the given {@code paddle} is outside of the field
+	 *      | paddle.getBottomRight().getX() > bottomRight.getX() || 
+	 *      | paddle.getBottomRight().getY() > bottomRight.getY() || 
+	 *      | paddle.getTopLeft().getX() < 0 || 
+	 *      | paddle.getTopLeft().getY() < 0 
+	 * 
+	 * @inspects | balls, blocks
+	 * 
+	 * @post This object's balls array's elements are equal in content to and in the same order as the given array of balls' elements
+	 * 	    | IntStream.range(0, getBalls().length).
+	 * 	    | 	allMatch(i -> getBalls()[i].equalContent(balls[i]))
+	 * 
+	 * @post This object's alpha array is a new array with no alphas in it
+	 * 		| getAlphas().length == 0
+	 * 
+	 * @post This object's BlockState array's elements are equal to and in the same order as the given array of blocks' elements
+	 * 	    | IntStream.range(0, getBlocks().length).
+	 * 	    |	allMatch(i -> getBlocks()[i].equals(blocks[i]))
+	 * 
+	 * @post This object's bottom right Point has the same coordinates as the given bottomRight point
+	 * 	    | bottomRight.equals(getBottomRight())
+	 * 
+	 * @post This object's is equal to the given paddle
+	 *      | getPaddle().equals(paddle)
+	 */
 	
 	public BreakoutState(Ball[] balls, BlockState[] blocks, Point bottomRight, PaddleState paddle) {
 		
@@ -56,14 +159,12 @@ public class BreakoutState {
 			throw new IllegalArgumentException("balls and blocks may not have elements that are null");
 		}
 		
-		if (Arrays.stream(balls).anyMatch(e -> e.getCenter().getX() - e.getDiameter()/2 < 0 || 
-				e.getCenter().getX() + e.getDiameter()/2 > bottomRight.getX() ||  
-				e.getCenter().getY() + e.getDiameter()/2 > bottomRight.getY() || 
-				e.getCenter().getY() - e.getDiameter()/2 < 0 ) || 
-			Arrays.stream(blocks).anyMatch(e -> e.getTopLeft().getX() < 0 || 
-					e.getBottomRight().getX() > bottomRight.getX() || 
-					e.getBottomRight().getY() > bottomRight.getY() ||
-					e.getTopLeft().getY() < 0 ) ) {
+		if (IntStream.range(0, balls.length).anyMatch(i -> IntStream.range(0, balls.length).anyMatch(e -> balls[i] == balls[e] && i != e) )) {
+			throw new IllegalArgumentException("There should be no duplicate balls");
+		}
+		
+		if (Arrays.stream(balls).anyMatch(b -> !(new Rect(new Point(0, 0), bottomRight)).contains(new Circle(b.getCenter(), b.getDiameter())) ) || 
+				Arrays.stream(blocks).anyMatch(e -> !(new Rect(new Point(0, 0), bottomRight)).contains(new Rect(e.getTopLeft(), e.getBottomRight()))) ) {
 			throw new IllegalArgumentException("balls and blocks may not have elements that are outside of the field");
 		}
 		
@@ -84,6 +185,74 @@ public class BreakoutState {
 		this.paddle = paddle;
 	}
 	
+	/**
+	 * Initializes this object so that it stores the given balls, blocks, bottomRight point paddle.
+	 * 
+	 * @throws IllegalArgumentException if the given balls array is {@code null}
+	 * 	    | balls == null
+	 * @throws IllegalArgumentException if any of the given balls array's elements are {@code null}
+	 *      | Arrays.stream(balls).anyMatch(b -> b == null)
+	 * @throws IllegalArgumentException if any of the given balls array's elements are outside of the field
+	 * 	    | Arrays.stream(balls).anyMatch(b -> !(new Rect(new Point(0, 0), bottomRight)).contains(new Circle(b.getCenter(), b.getDiameter())) )
+	 * @throws IllegalArgumentException if there are any duplicate balls in the given balls array
+	 * 		| IntStream.range(0, balls.length).anyMatch(i -> IntStream.range(0, balls.length).anyMatch(e -> balls[i] == balls[e] && i != e) )
+	 * @throws IllegalArgumentException if there is a ball linked to an alpha that is not in the given alphas array 
+	 * 		| Arrays.stream(balls).anyMatch(b -> b.getAlphas().stream().anyMatch(a -> Arrays.stream(alphas).noneMatch(i -> i == a ) ) )    
+	 * 
+	 * 
+	 * @throws IllegalArgumentException if the given alphas array is {@code null}
+	 * 		| alphas == null
+	 * @throws IllegalArgumentException if the given alphas array has elements that are null
+	 * 		| Arrays.stream(alphas).anyMatch(a -> a == null)
+	 * @throws IllegalArgumentException if any of the given alphas array's elements are outside of the field
+	 * 		| Arrays.stream(alphas).anyMatch(a -> !(new Rect(new Point(0, 0), bottomRight)).contains(new Circle(a.getCenter(), a.getDiameter())) )
+	 * @throws IllegalArgumentException if there are duplicate alphas in the alphas array
+	 * 		| IntStream.range(0, alphas.length).anyMatch(i -> IntStream.range(0, alphas.length).anyMatch(e -> alphas[i] == alphas[e] && i != e) )
+	 * @throws IllegalArgumentException if there is an alpha linked to a ball that is not in the given balls array
+	 * 		| Arrays.stream(alphas).anyMatch(a -> a.getBalls().stream().anyMatch(b -> Arrays.stream(balls).noneMatch(i -> i == b)))    
+	 *     
+	 *     
+	 * @throws IllegalArgumentException if the given blocks array is {@code null}
+	 * 	    | blocks == null
+	 * @throws IllegalArgumentException if any of the given blocks array's elements are {@code null}
+	 *      | Arrays.stream(blocks).anyMatch(b -> b == null)
+	 * @throws IllegalArgumentException if any of the given block array's elements are outside of the field   
+	 *      | Arrays.stream(blocks).anyMatch(e -> !(new Rect(new Point(0, 0), bottomRight)).contains(new Rect(e.getTopLeft(), e.getBottomRight())))
+	 *     
+	 * @throws IllegalArgumentException if the given {@code bottomRight} is {@code null}.
+	 * 	    | bottomRight == null
+	 * @throws IllegalArgumentException if the given {@code bottomRight} is to the left of or above the point with coordinates {@code (0, 0)}
+	 * 	    | bottomRight.getX() < 0 ||
+	 * 		| bottomRight.getY() < 0
+	 * 
+	 * @throws IllegalArgumentException if the given {@code paddle} is {@code null}
+	 * 	    | paddle == null
+	 * @throws IllegalArgumentException if the given {@code paddle} is outside of the field
+	 *      | paddle.getBottomRight().getX() > bottomRight.getX() || 
+	 *      | paddle.getBottomRight().getY() > bottomRight.getY() || 
+	 *      | paddle.getTopLeft().getX() < 0 || 
+	 *      | paddle.getTopLeft().getY() < 0 
+	 * 
+	 * @inspects | balls, blocks
+	 * 
+	 * @post This object's balls array's elements are equal in content to and in the same order as the given array of balls' elements
+	 * 	    | IntStream.range(0, getBalls().length).
+	 * 	    | 	allMatch(i -> getBalls()[i].equalContent(balls[i]))
+	 * 
+	 * @post This object's alphas array's elements are equal in content to and in the same order as the given array of alphas' elements
+	 * 		| IntStream.range(0, getAlphas().length).
+	 * 		|	allMatch(i -> getAlphas()[i].equalContent(alphas[i])) 
+	 * 
+	 * @post This object's BlockState array's elements are equal to and in the same order as the given array of blocks' elements
+	 * 	    | IntStream.range(0, getBlocks().length).
+	 * 	    |	allMatch(i -> getBlocks()[i].equals(blocks[i]))
+	 * 
+	 * @post This object's bottom right Point has the same coordinates as the given bottomRight point
+	 * 	    | bottomRight.equals(getBottomRight())
+	 * 
+	 * @post This object's is equal to the given paddle
+	 *      | getPaddle().equals(paddle)
+	 */
 	
 	public BreakoutState(Ball[] balls, Alpha[] alphas, BlockState[] blocks, Point bottomRight, PaddleState paddle) {
 		
@@ -115,18 +284,9 @@ public class BreakoutState {
 			throw new IllegalArgumentException("There should be no duplicate alphas");
 			
 			
-		if (Arrays.stream(balls).anyMatch(e -> e.getCenter().getX() - e.getDiameter()/2 < 0 || 
-				e.getCenter().getX() + e.getDiameter()/2 > bottomRight.getX() ||  
-				e.getCenter().getY() + e.getDiameter()/2 > bottomRight.getY() || 
-				e.getCenter().getY() - e.getDiameter()/2 < 0 ) ||
-			Arrays.stream(alphas).anyMatch(e -> e.getCenter().getX() - e.getDiameter()/2 < 0 || 
-					e.getCenter().getX() + e.getDiameter()/2 > bottomRight.getX() ||  
-					e.getCenter().getY() + e.getDiameter()/2 > bottomRight.getY() || 
-					e.getCenter().getY() - e.getDiameter()/2 < 0 ) ||
-			Arrays.stream(blocks).anyMatch(e -> e.getTopLeft().getX() < 0 || 
-					e.getBottomRight().getX() > bottomRight.getX() || 
-					e.getBottomRight().getY() > bottomRight.getY() ||
-					e.getTopLeft().getY() < 0 ) ) {
+		if (Arrays.stream(balls).anyMatch(b -> !(new Rect(new Point(0, 0), bottomRight)).contains(new Circle(b.getCenter(), b.getDiameter())) ) ||
+				Arrays.stream(alphas).anyMatch(a -> !(new Rect(new Point(0, 0), bottomRight)).contains(new Circle(a.getCenter(), a.getDiameter())) ) ||
+				Arrays.stream(blocks).anyMatch(e -> !(new Rect(new Point(0, 0), bottomRight)).contains(new Rect(e.getTopLeft(), e.getBottomRight())) ) ) {
 			throw new IllegalArgumentException("balls, alphas and blocks may not have elements that are outside of the field");
 		}
 		
@@ -269,13 +429,6 @@ public class BreakoutState {
 	
 	
 	public void tick(int paddleDir, int elapsedTime) {
-
-		int tickCutOff = 20;
-		
-		if (elapsedTime > tickCutOff) {
-			tick(paddleDir, tickCutOff);
-			tick(paddleDir, elapsedTime-tickCutOff);
-		}else {
 		
 		superchargedTimeHandler(elapsedTime);
 	
@@ -292,7 +445,6 @@ public class BreakoutState {
 		paddleBallCollisionHandler(paddleDir);
 		
 		paddleAlphaCollisionHandler(paddleDir);
-		}
 }
 	
 	
