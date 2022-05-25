@@ -286,7 +286,7 @@ public class BreakoutFacade {
 	}
 	
 	public boolean collidesWith(Alpha alpha, Rect rect) {
-		Ball tempAlpha = new NormalBall(alpha.getCenter(), alpha.getDiameter(), alpha.getVelocity());
+		Ball tempAlpha = alpha.createNormalBallFromAlpha();
 		return tempAlpha.raaktRechthoek(rect, 1) || 
 				tempAlpha.raaktRechthoek(rect, 2) || 
 				tempAlpha.raaktRechthoek(rect, 3) || 

@@ -104,7 +104,9 @@ public class AlphaTest {
 		assertTrue(alpha1Clone.equalContent(alpha1));
 		assertTrue(alpha1 != alpha1Clone);
 		
-		alpha1.moveAlpha(br1, maxElapsedTime);
+		Ball tb = alpha1.createNormalBallFromAlpha();
+		tb.moveBall(br1, 1);
+		alpha1.changeAlphaFromBall(tb);
 		assertFalse(alpha1.equalContent(alpha1Clone));
 	}
 	
@@ -115,22 +117,30 @@ public class AlphaTest {
 		Alpha alpha1AfterMoving = new Alpha(alpha1.getCenter().plus(alpha1.getVelocity()), diameter1, velocity1);
 		
 		assertTrue(alpha1.equalContent(alpha1BeforeMoving));
-		alpha1.moveAlpha(br1, 1);
+		Ball tb = alpha1.createNormalBallFromAlpha();
+		tb.moveBall(br1, 1);
+		alpha1.changeAlphaFromBall(tb);
 		assertFalse(alpha1.equalContent(alpha1BeforeMoving));
 		assertTrue(alpha1.equalContent(alpha1AfterMoving));
 		
 		Alpha alpha2AfterMoving5Ms = new Alpha(alpha2.getCenter().plus(velocity2.scaled(5)), diameter2, velocity2);
 		Alpha alpha2BeforeMoving = alpha2.clone();
 		assertTrue(alpha2.equalContent(alpha2BeforeMoving));
-		alpha2.moveAlpha(br1, 5);
+		Ball tb2 = alpha2.createNormalBallFromAlpha();
+		tb2.moveBall(br1, 5);
+		alpha2.changeAlphaFromBall(tb2);
 		assertTrue(alpha2.equalContent(alpha2AfterMoving5Ms));
 		assertFalse(alpha2.equalContent(alpha2BeforeMoving));
 		assertFalse(alpha2.equalContent(alpha1AfterMoving));
-		alpha2BeforeMoving.moveAlpha(br1, 5);
+		Ball tb2bm = alpha2BeforeMoving.createNormalBallFromAlpha();
+		tb2bm.moveBall(br1, 5);
+		alpha2BeforeMoving.changeAlphaFromBall(tb2bm);
 		assertTrue(alpha2.equalContent(alpha2BeforeMoving));
 		
 		Alpha alpha2AfterMoving30Ms = new Alpha(new Point(center2.getX(), 250), diameter2, velocity2);
-		alpha2.moveAlpha(br2, 30);
+		Ball tb3 = alpha2.createNormalBallFromAlpha();
+		tb3.moveBall(br2, 30);
+		alpha2.changeAlphaFromBall(tb3);
 		assertTrue(alpha2.equalContent(alpha2AfterMoving30Ms));
 	}
 	
@@ -145,21 +155,25 @@ public class AlphaTest {
 		Rect rightWall = new Rect(new Point(br3.getX(), 0), new Point(br3.getX()+1, br3.getY()));
 		Rect bottomWall = new Rect(new Point(0, br3.getY()), new Point(br3.getX(), br3.getY() + 1));
 		
-		alphaBottomWall.moveAlpha(br3, 50);
-		Ball alphaBottomWallBall = new NormalBall(alphaBottomWall.getCenter(), alphaBottomWall.getDiameter(), alphaBottomWall.getVelocity());
-		assertTrue(alphaBottomWallBall.raaktRechthoek(bottomWall, 3));
+		Ball tb = alphaBottomWall.createNormalBallFromAlpha();
+		tb.moveBall(br3, 50);
+		alphaBottomWall.changeAlphaFromBall(tb);
+		assertTrue(tb.raaktRechthoek(bottomWall, 3));
 		
-		alphaLeftWall.moveAlpha(br3, 5);
-		Ball alphaLeftWallBall = new NormalBall(alphaLeftWall.getCenter(), alphaLeftWall.getDiameter(), alphaLeftWall.getVelocity());
-		assertTrue(alphaLeftWallBall.raaktRechthoek(leftWall, 4));
+		Ball tb2 = alphaLeftWall.createNormalBallFromAlpha();
+		tb2.moveBall(br3, 5);
+		alphaLeftWall.changeAlphaFromBall(tb2);
+		assertTrue(tb2.raaktRechthoek(leftWall, 4));
 		
-		alphaTopWall.moveAlpha(br3, 5);
-		Ball alphaTopWallBall = new NormalBall(alphaTopWall.getCenter(), alphaTopWall.getDiameter(), alphaTopWall.getVelocity());
-		assertTrue(alphaTopWallBall.raaktRechthoek(topWall, 1));
+		Ball tb3 = alphaTopWall.createNormalBallFromAlpha();
+		tb3.moveBall(br3, 5);
+		alphaTopWall.changeAlphaFromBall(tb3);
+		assertTrue(tb3.raaktRechthoek(topWall, 1));
 		
-		alphaRightWall.moveAlpha(br3, 5);
-		Ball alphaRightWallBall = new NormalBall(alphaRightWall.getCenter(), alphaRightWall.getDiameter(), alphaRightWall.getVelocity());
-		assertTrue(alphaRightWallBall.raaktRechthoek(rightWall, 2));
+		Ball tb4 = alphaRightWall.createNormalBallFromAlpha();
+		tb4.moveBall(br3, 5);
+		alphaRightWall.changeAlphaFromBall(tb4);
+		assertTrue(tb4.raaktRechthoek(rightWall, 2));
 	}
 	
 }

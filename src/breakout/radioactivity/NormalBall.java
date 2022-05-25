@@ -7,7 +7,7 @@ import breakout.utils.Vector;
 import java.util.stream.IntStream;
 
 /**
- * This class represents a ball on a 2D-grid
+ * This class represents a normal ball on a 2D-grid, as part of a ball-alpha graph
  *
  * @invar | getCenter() != null
  * @invar | getDiameter() >= 0
@@ -24,6 +24,8 @@ import java.util.stream.IntStream;
 public class NormalBall extends Ball{
 	
 	/**
+	 * Constructs a new normal ball with the given center, diameter and velocity
+	 * 
 	 * @pre | center != null
 	 * @pre | velocity != null
 	 * 
@@ -121,7 +123,7 @@ public class NormalBall extends Ball{
 	 * 	|		((Ball)obj).getCenter().equals(getCenter()) &&
 	 * 	|		((Ball)obj).getDiameter() == getDiameter() &&
 	 * 	|		((Ball)obj).getVelocity().equals(getVelocity()) &&
-	 * 	|		((Ball)obj).getAlphas().equals(getAlphas()) && 
+	 * 	|		((Ball)obj).getAlphas().size() == getAlphas().size() && 
 		|		((Ball)obj).getEcharge() == getEcharge() && (
 	 * 	|			getClass() == NormalBall.class ) ) )
 	 */

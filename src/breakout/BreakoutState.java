@@ -19,6 +19,26 @@ public class BreakoutState {
 	public static int MAX_ELAPSED_TIME = 50;
 	private static final int MAX_SUPERCHARGED_TIME = 10000;
 	
+	/**
+	 * @invar | balls != null
+	 * @invar | Arrays.stream(balls).noneMatch(e -> e == null)
+	 * 
+	 * 
+	 * @invar | blocks != null
+	 * @invar | Arrays.stream(blocks).noneMatch(e -> e == null)
+	 * @invar | Arrays.stream(blocks).noneMatch(e -> 
+	 * 		  |		e.getTopLeft().getX() < 0 || 
+	 *        | 	e.getBottomRight().getX() > bottomRight.getX() ||
+	 *        |		e.getTopLeft().getY() < 0 || 
+	 *        |		e.getBottomRight().getY() > bottomRight.getY() )
+	 * 
+	 * @invar | bottomRight != null
+	 * @invar | bottomRight.getX() >= 0 && bottomRight.getY() >= 0
+	 * 
+	 * @invar | paddle != null
+	 * @invar | (new Rect(new Point(0, 0), bottomRight)).contains(new Rect(paddle.getTopLeft(), paddle.getBottomRight()))
+	 * @representationObject
+	 */
 	
 	private Ball[] balls;
 	private Alpha[] alphas;
@@ -118,56 +138,129 @@ public class BreakoutState {
 			throw new IllegalArgumentException("bottomRight should not be to the left of or above (0, 0)");
 		}
 			
-		this.balls = cloneBallsArray(balls);
-		this.alphas = cloneAlphasArray(alphas);
+		initialClone(balls, alphas);
 		this.blocks = blocks.clone();
 		this.bottomRight = bottomRight;
 		this.paddle = paddle;
 	}
 	
-	private Ball[] cloneBallsArray(Ball[] balls) {
-		Ball[] res = new Ball[balls.length];
-		for (int i = 0; i < balls.length; i++) {
-			res[i] = balls[i].clone();
-			for(Alpha alpha: balls[i].getAlphas()) {
-				balls[i].unLink(alpha);
+	private void initialClone(Ball[] balls, Alpha[] alphas) {
+		Ball[] ballRes = new Ball[balls.length];
+		Alpha[] alphaRes = new Alpha[alphas.length];
+		
+		for (int i=0; i<balls.length; i++) {
+			ballRes[i] = balls[i].cloneBallWithChangedVelocity(BALL_VEL_VARIATIONS[0]);
+		}
+		for (int i=0; i<alphas.length; i++) {
+			alphaRes[i] = new Alpha(alphas[i].getCenter(), alphas[i].getDiameter(), alphas[i].getVelocity());
+		}
+		for (int i=0; i<balls.length; i++) {
+			for (int j=0; j<alphas.length; j++) {
+				if (balls[i].getAlphas().contains(alphas[j])) {
+					ballRes[i].linkTo(alphaRes[j]);
+				}
 			}
 		}
-		this.balls = res;
-		return res;
+		this.balls = ballRes;
+		this.alphas = alphaRes;
 	}
 	
-	private Alpha[] cloneAlphasArray(Alpha[] alphas) {
-		Alpha[] res = new Alpha[alphas.length];
-		for (int i = 0; i < alphas.length; i++) {
-			res[i] = alphas[i].clone();
-			for (Ball ball: alphas[i].getBalls()) {
-				ball.unLink(alphas[i]);
+	private Ball[] cloneBallsArray(Ball[] balls) {
+		Ball[] ballRes = new Ball[balls.length];
+		Alpha[] alphaRes = new Alpha[alphas.length];
+		
+		for (int i=0; i<balls.length; i++) {
+			ballRes[i] = balls[i].cloneBallWithChangedVelocity(BALL_VEL_VARIATIONS[0]);
+		}
+		for (int i=0; i<alphas.length; i++) {
+			alphaRes[i] = new Alpha(alphas[i].getCenter(), alphas[i].getDiameter(), alphas[i].getVelocity());
+		}
+		for (int i=0; i<balls.length; i++) {
+			for (int j=0; j<alphas.length; j++) {
+				if (balls[i].getAlphas().contains(alphas[j])) {
+					ballRes[i].linkTo(alphaRes[j]);
+				}
 			}
 		}
-		this.alphas = res;
-		return res;
+		return ballRes;
 	}
+	
+	private Alpha[] cloneAlphas(Alpha[] alphas) {
+		Ball[] ballRes = new Ball[balls.length];
+		Alpha[] alphaRes = new Alpha[alphas.length];
+		
+		for (int i=0; i<balls.length; i++) {
+			ballRes[i] = balls[i].cloneBallWithChangedVelocity(BALL_VEL_VARIATIONS[0]);
+		}
+		for (int i=0; i<alphas.length; i++) {
+			alphaRes[i] = new Alpha(alphas[i].getCenter(), alphas[i].getDiameter(), alphas[i].getVelocity());
+		}
+		for (int i=0; i<balls.length; i++) {
+			for (int j=0; j<alphas.length; j++) {
+				if (balls[i].getAlphas().contains(alphas[j])) {
+					ballRes[i].linkTo(alphaRes[j]);
+				}
+			}
+		}
+		return alphaRes;
+	}
+	
+	/**
+	 * Returns a new array that is a deep clone of the balls array
+	 * 
+	 * @inspects | this
+	 * 
+	 * @creates | result
+	 */
 	
 	public Ball[] getBalls() {
 		return cloneBallsArray(balls);
 	}
 	
+	/**
+	 * Returns a new array that is a deep clone of the alphas array
+	 * 
+	 * @inspects | this
+	 * 
+	 * @creates | result
+	 */
+	
 	public Alpha[] getAlphas() {
-		return cloneAlphasArray(alphas);
+		return cloneAlphas(alphas);
 	}
+	
+	/**
+	 * Returns a new array containing all the blocks 
+	 * 
+	 * @creates | result
+	 */
 	
 	public BlockState[] getBlocks() {
 		return blocks.clone();
 	}
 	
+	/** Returns the paddle */
+	
 	public PaddleState getPaddle() {
 		return paddle;
 	}
 	
+	/**
+	 * Returns the coordinates of the bottom right of the field
+	 * 
+	 * @immutable This object is associated with the same bottom right point throughout its lifetime
+	 */
+
+	
 	public Point getBottomRight() {
 		return bottomRight;
 	}
+	
+	/**
+	 * Returns the maximum amount of time a ball can be supercharged for after hitting a powerup block. 
+	 * 
+	 * @immutable This object is associated with the same maximum supercharged time throughout its lifetime
+	 */
 	
 	public int maxSuperchargedTime() {
 		return MAX_SUPERCHARGED_TIME;
@@ -246,23 +339,26 @@ public class BreakoutState {
 		}
 		
 		for (Alpha alpha: alphas) {
-			Ball tempAlpha = new NormalBall(alpha.getCenter(), alpha.getDiameter(), alpha.getVelocity());
+			Ball tempAlpha = alpha.createNormalBallFromAlpha();
 			if (tempAlpha.raaktRechthoek(leftWall, 4)) {
-				alpha.bounceWall(1);
+				tempAlpha.hitBlock(leftWall, false);
+				alpha.changeAlphaFromBall(tempAlpha);
 				for (Ball ball: alpha.getBalls()) {
 					ball.linkedAlphaHitWall(alpha);
 				}
 				continue;
 			}
 			if (tempAlpha.raaktRechthoek(topWall, 1)) {
-				alpha.bounceWall(2);
+				tempAlpha.hitBlock(topWall, false);
+				alpha.changeAlphaFromBall(tempAlpha);
 				for (Ball ball: alpha.getBalls()) {
 					ball.linkedAlphaHitWall(alpha);
 				}
 				continue;
 			}
 			if (tempAlpha.raaktRechthoek(rightWall, 2)) {
-				alpha.bounceWall(3);
+				tempAlpha.hitBlock(rightWall, false);
+				alpha.changeAlphaFromBall(tempAlpha);
 				for (Ball ball: alpha.getBalls()) {
 					ball.linkedAlphaHitWall(alpha);
 				}
@@ -283,7 +379,7 @@ public class BreakoutState {
 		}
 		balls = Arrays.stream(balls).filter(b -> b != null).toArray(Ball[]::new);
 		for (int i=0; i<alphas.length; i++) {
-			Ball tempAlpha = new NormalBall(alphas[i].getCenter(), alphas[i].getDiameter(), alphas[i].getVelocity());
+			Ball tempAlpha = alphas[i].createNormalBallFromAlpha();
 			if (tempAlpha.raaktRechthoek(bottomWall, 3)) {
 				for (Ball ball: alphas[i].getBalls()) {
 					ball.unLink(alphas[i]);
@@ -328,8 +424,12 @@ public class BreakoutState {
 		Vector addedVelocity = PADDLE_VEL.scaledDiv(5).scaled(paddleDir);
 		for (Ball ball: balls) {
 			boolean geraakt = false;
+			// Make it so the ball's velocity only gets addedVelocity when it hit the paddle on the top side
+			// Adding this velocity when the ball hit the paddle on another side is meaningless and causes slight problems
+			boolean topSide = false;
 			if (ball.raaktRechthoek(paddleRect, 3)) {
 				geraakt = true;
+				topSide = true;
 			}
 			if (ball.raaktRechthoek(paddleRect, 2)) {
 				geraakt = true;
@@ -343,7 +443,9 @@ public class BreakoutState {
 			
 			if (geraakt) {
 				ball.hitBlock(paddleRect, false);
-				ball.setVelocity(ball.getVelocity().plus(addedVelocity));
+				if (topSide) {
+					ball.setVelocity(ball.getVelocity().plus(addedVelocity));
+				}
 				balls = Arrays.stream(paddle.hitPaddleReplicationHandler(balls, ball)).filter(b -> b != null).toArray(Ball[]::new);
 				paddle = paddle.ballHitPaddle();
 				Alpha newAlpha = new Alpha(ball.getCenter(), ball.getDiameter(), ball.getVelocity().plus(BALL_VEL_VARIATIONS[4]));
@@ -359,9 +461,13 @@ public class BreakoutState {
 		Vector addedVelocity = PADDLE_VEL.scaledDiv(5).scaled(paddleDir);
 		for (Alpha alpha: alphas) {
 			boolean geraakt = false;
-			Ball tempAlpha = new NormalBall(alpha.getCenter(), alpha.getDiameter(), alpha.getVelocity());
+			// Make it so the alpha's velocity only gets addedVelocity when it hit the paddle on the top side
+			// Adding this velocity when the alpha hit the paddle on another side is meaningless and causes slight problems
+			boolean topSide = false;
+			Ball tempAlpha = alpha.createNormalBallFromAlpha();
 			if (tempAlpha.raaktRechthoek(paddleRect, 3)) {
 				geraakt = true;
+				topSide = true;
 			}
 			if (tempAlpha.raaktRechthoek(paddleRect, 2)) {
 				geraakt = true;
@@ -374,6 +480,9 @@ public class BreakoutState {
 			}
 			if (geraakt) {
 				tempAlpha.hitBlock(paddleRect, false);
+				if (topSide) {
+					tempAlpha.setVelocity(tempAlpha.getVelocity().plus(addedVelocity));
+				}
 				alpha.changeAlphaFromBall(tempAlpha);
 				Ball newBall = new NormalBall(alpha.getCenter(), alpha.getDiameter(), alpha.getVelocity().plus(BALL_VEL_VARIATIONS[4]));
 				newBall.linkTo(alpha);

@@ -9,7 +9,7 @@ import breakout.utils.Rect;
 import breakout.utils.Vector;
 
 /**
- * This class represents a ball on a 2D-grid
+ * This class represents a supercharged ball on a 2D-grid, as part of a ball-alpha graph
  *
  * @invar | getCenter() != null
  * @invar | getDiameter() >= 0
@@ -32,6 +32,8 @@ public class SuperchargedBall extends Ball {
 	private int time;
 	
 	/**
+	 * Constructs a new supercharged ball with the given center, diameter, velocity and time it has been supercharged for
+	 * 
 	 * @pre | center != null
 	 * @pre | velocity != null
 	 * @pre | time >= 0
@@ -218,7 +220,7 @@ public class SuperchargedBall extends Ball {
 	 * 		|		((Ball)obj).getCenter().equals(getCenter()) &&
 	 * 		|		((Ball)obj).getDiameter() == getDiameter() &&
 	 * 		|		((Ball)obj).getVelocity().equals(getVelocity()) && 
-	 * 		|		((Ball)obj).getAlphas().equals(getAlphas()) && 
+	 * 		|		((Ball)obj).getAlphas().size() == getAlphas().size() && 
 			|		((Ball)obj).getEcharge() == getEcharge() && (
 	 * 		|			getClass() == SuperchargedBall.class &&
 	 * 		|				((SuperchargedBall)obj).getTime() == getTime() ) ) )

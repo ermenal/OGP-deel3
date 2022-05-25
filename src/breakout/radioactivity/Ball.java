@@ -12,7 +12,7 @@ import java.util.stream.IntStream;
 import java.util.*;
 
 /**
- * This class represents a ball on a 2D-grid
+ * This class represents a ball on a 2D-grid, as part of a ball-alpha graph
  *
  * @invar | getCenter() != null
  * @invar | getDiameter() >= 0
@@ -55,6 +55,8 @@ public abstract class Ball {
 	private Set<Alpha> linkedAlphas = new HashSet<Alpha>();
 	
 	/**
+	 * Constructs a new ball with the given center, diameter, velocity and color
+	 * 
 	 * @pre | center != null
 	 * @pre | velocity != null
 	 * @pre | color == Color.WHITE || color == Color.GREEN
@@ -95,7 +97,11 @@ public abstract class Ball {
 		return velocity;
 	}
 	
-	/** Returns this ball's color */
+	/** 
+	 * Returns this ball's color 
+	 * 
+	 * @immutable This object is associated with the same color throughout its lifetime
+	 */ 
 	
 	public Color getColor() {
 		return color;
@@ -327,7 +333,7 @@ public abstract class Ball {
 	 * 		|		((Ball)obj).getCenter().equals(getCenter()) &&
 	 * 		|		((Ball)obj).getDiameter() == getDiameter() &&
 	 * 		|		((Ball)obj).getVelocity().equals(getVelocity()) &&
-	 * 		|		((Ball)obj).getAlphas().equals(getAlphas()) && 
+	 * 		|		((Ball)obj).getAlphas().size() == getAlphas().size() && 
 			|		((Ball)obj).getEcharge() == getEcharge() && (
 	 * 		|			getClass() == NormalBall.class ||
 	 * 		|			getClass() == SuperchargedBall.class &&
@@ -341,7 +347,7 @@ public abstract class Ball {
 				((Ball)obj).getCenter().equals(center) &&
 				((Ball)obj).getDiameter() == diameter &&
 				((Ball)obj).getVelocity().equals(velocity) && 
-				((Ball)obj).getAlphas().equals(linkedAlphas) && 
+				((Ball)obj).getAlphas().size() == linkedAlphas.size() && 
 				((Ball)obj).getEcharge() == eCharge;	
 				
 	}
@@ -479,20 +485,24 @@ public abstract class Ball {
 	 */
 	
 	public void hitBlock(Rect rect, boolean destroyed) {
-			if (raaktRechthoek(rect, 1)) {
-				velocity = velocity.mirrorOver(MIRROR_VECTORS[0]);
-				return;
-			}
 			if (raaktRechthoek(rect, 2)) {
 				velocity = velocity.mirrorOver(MIRROR_VECTORS[1]);
 				return;
 			}
-			if (raaktRechthoek(rect, 3)) {
-				velocity = velocity.mirrorOver(MIRROR_VECTORS[2]);
+		
+			if (raaktRechthoek(rect, 1)) {
+				velocity = velocity.mirrorOver(MIRROR_VECTORS[0]);
 				return;
 			}
-			if (raaktRechthoek(rect, 4))
+			
+			if (raaktRechthoek(rect, 4)) {
 				velocity = velocity.mirrorOver(MIRROR_VECTORS[3]);
+				return;
+			}
+			
+			if (raaktRechthoek(rect, 3)) {
+				velocity = velocity.mirrorOver(MIRROR_VECTORS[2]);
+			}
 		
 	}
 	

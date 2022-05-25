@@ -142,10 +142,6 @@ class BallAlphaLinkTest {
 		
 		try {fac.createBreakoutState(alphas1, balls1, blocks, br, paddle);} catch (Exception e) {fail();}
 		
-		alpha1.addBall(normalBall1);
-		
-		assertThrows(IllegalArgumentException.class, () -> fac.createBreakoutState(alphas1, balls1, blocks, br, paddle));
-		
 		normalBall1.linkTo(alpha1);
 		
 		try {fac.createBreakoutState(alphas1, balls1, blocks, br, paddle);} catch (Exception e) {fail();}
@@ -212,6 +208,41 @@ class BallAlphaLinkTest {
 		assertTrue(normalBall1.equalContent(nb1));
 		normalBall1.linkTo(alpha1);
 		assertFalse(normalBall1.equalContent(nb1));
+	}
+	
+	@Test
+	void testBsDeepCopies() {
+		normalBall1.linkTo(alpha1);
+		normalBall2.linkTo(alpha1);
+		superchargedBall1.linkTo(alpha1);
+		
+		normalBall1.linkTo(alpha2);
+		superchargedBall3.linkTo(alpha2);
+		
+		normalBall3.linkTo(alpha3);
+		superchargedBall2.linkTo(alpha3);
+		normalBall2.linkTo(alpha3);
+		
+		Ball[] balls = Stream.concat(Arrays.stream(balls1), Arrays.stream(balls2)).toArray(Ball[]::new);
+		Alpha[] alphas = Stream.concat(Arrays.stream(alphas1), Arrays.stream(alphas2)).toArray(Alpha[]::new);
+		
+		try {fac.createBreakoutState(alphas, balls, blocks, br, paddle);} catch (Exception e) {fail();}
+		
+		BreakoutState state = new BreakoutState(balls, alphas, blocks, br, paddle);
+		
+		Ball[] get = state.getBalls();
+		
+		for (int i=0; i<balls.length; i++) {
+			assertTrue(state.getBalls()[i] != balls[i]);
+			for (int j=0; j<alphas.length; j++) {
+				int idx = j;
+				if (balls[i].getAlphas().contains(alphas[j])) {
+					state.getBalls()[i].getAlphas().stream().anyMatch(a -> a.equalContent(alphas[idx]));
+				}else {
+					state.getBalls()[i].getAlphas().stream().noneMatch(a -> a.equalContent(alphas[idx]));
+				}
+			}
+		}
 	}
 
 }
